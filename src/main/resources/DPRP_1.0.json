@@ -1,0 +1,245 @@
+{
+    "name": "Diabetes Prevention Recognition Program",
+    "code": "DPRP",
+    "version": "1.0",
+    "fields": [
+        {
+            "fieldNumber": 1,
+            "name": "ORGCODE",
+            "category": "Identification",
+            "label": "Organization code",
+            "type": "String",
+            "required": true,
+            "rangeMax": 25
+        },
+        {
+            "fieldNumber": 2,
+            "name": "PARTICIP",
+            "category": "Identification",
+            "label": "Participant Id",
+            "type": "String",
+            "required": true,
+            "rangeMax": 25
+        },
+        {
+            "fieldNumber": 3,
+            "name": "ENROLL",
+            "category": "Participant Info",
+            "label": "Enroll",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "ENROLL_LOOKUP"
+        },
+        {
+            "fieldNumber": 4,
+            "name": "PAYER",
+            "category": "Participant Info",
+            "label": "Payer",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "PAYER_LOOKUP"
+        },
+        {
+            "fieldNumber": 5,
+            "name": "STATE",
+            "category": "Participant Info",
+            "label": "State",
+            "type": "String",
+            "required": true,
+            "possibleAnswers": "US_STATES"
+        },
+        {
+            "fieldNumber": 6,
+            "name": "GLUCTEST",
+            "category": "Participant Info",
+            "label": "Glucose Test",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "GLUCTEST_LOOKUP"
+        },
+        {
+            "fieldNumber": 7,
+            "name": "GDM",
+            "category": "Participant Info",
+            "label": "Gestational Diabetes Mellitus (GDM)",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "GDM_LOOKUP"
+        },
+        {
+            "fieldNumber": 8,
+            "name": "RISKTEST",
+            "category": "Participant Info",
+            "label": "Risk Test",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "RISKTEST_LOOKUP"
+        },
+        {
+            "fieldNumber": 9,
+            "name": "AGE",
+            "category": "Demographic",
+            "label": "Age",
+            "type": "Numeric",
+            "required": true,
+            "rangeMin": 18,
+            "rangeMax": 125
+        },
+        {
+            "fieldNumber": 10,
+            "name": "ETHNIC",
+            "category": "Demographic",
+            "label": "Ethinicity",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "ETHNIC_LOOKUP"
+        },
+        {
+            "fieldNumber": 11,
+            "name": "AIAN",
+            "category": "Demographic",
+            "label": "American Indian and Alaska Native",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "AIAN_LOOKUP"
+        },
+        {
+            "fieldNumber": 12,
+            "name": "ASIAN",
+            "category": "Demographic",
+            "label": "Asian",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "YN_LOOKUP"
+        },
+        {
+            "fieldNumber": 13,
+            "name": "BLACK",
+            "category": "Demographic",
+            "label": "Black or African American",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "BLACK_LOOKUP"
+        },
+        {
+            "fieldNumber": 14,
+            "name": "NHOPI",
+            "category": "Demographic",
+            "label": "Native Hawaiian or Other Pacific Islanders",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "NHOPI_LOOKUP"
+        },
+        {
+            "fieldNumber": 15,
+            "name": "WHITE",
+            "category": "Demographic",
+            "label": "White",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "WHITE_LOOKUP"
+        },
+        {
+            "fieldNumber": 16,
+            "name": "SEX",
+            "category": "Demographic",
+            "label": "Sec",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "SEX_LOOKUP"
+        },
+        {
+            "fieldNumber": 17,
+            "name": "HEIGHT",
+            "category": "Participant Info",
+            "label": "Height",
+            "type": "Numeric",
+            "required": true,
+            "rangeMin": 30,
+            "rangeMax": 98,
+            "possibleAnswers": "HEIGHT_LOOKUP"
+        },
+        {
+            "fieldNumber": 18,
+            "name": "EDU",
+            "category": "Demographic",
+            "label": "Education",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "EDU_LOOKUP"
+        },
+        {
+            "fieldNumber": 19,
+            "name": "DMODE",
+            "category": "Participant Info",
+            "label": "DMODE",
+            "type": "Numeric",
+            "required": true,
+            "possibleAnswers": "DMODE_LOOKUP"
+        },
+        {
+            "fieldNumber": 20,
+            "name": "SESSID",
+            "category": "Session Info",
+            "label": "Session ID",
+            "type": "Numeric",
+            "required": true,
+            "rangeMin": 1,
+            "rangeMax": 99
+        },
+        {
+            "fieldNumber": 21,
+            "name": "SESSTYPE",
+            "category": "Session Info",
+            "label": "Session Type",
+            "type": "String",
+            "required": true,
+            "possibleAnswers": "SESSIONTYPE_LOOKUP"
+        },
+        {
+            "fieldNumber": 22,
+            "name": "DATE",
+            "category": "Session Info",
+            "label": "Date of Session",
+            "type": "Date",
+            "required": true,
+            "format": "M/d/yyyy"
+        },
+        {
+            "fieldNumber": 23,
+            "name": "WEIGHT",
+            "category": "Session Info",
+            "label": "Weight",
+            "type": "Numeric",
+            "required": true,
+            "rangeMin": 70,
+            "rangeMax": 997,
+            "possibleAnswers": "WEIGHT_LOOKUP"
+        },
+        {
+            "fieldNumber": 24,
+            "name": "PA",
+            "category": "Session Info",
+            "label": "Physical Activity",
+            "type": "Numeric",
+            "required": true,
+            "rangeMin": 0,
+            "rangeMax": 997,
+            "possibleAnswers": "PA_LOOKUP"
+        }
+    ]
+}
+//    "rowValidation": [
+//        {
+//            "scope": ["1a", "1c", "3a" ],
+//            "name": "Participants",
+//            "rules": [
+//                {
+//                    "rule": "$3f[n+1] == $3f[n]",
+//                    "message": "All Participant records must have the same Race",
+//                    "category": "WARNING"
+//                }
+//            ]
+//        }
+//    ]
+//}

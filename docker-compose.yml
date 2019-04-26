@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+  mdedef:
+    image: esurveillance/mdedefinition
+    restart: always
+    container_name: mdedefinition
+    ports:
+      - 10000:10000
+    depends_on:
+      - mongodb_mde
+    networks:
+      - esurv1
+    env_file:
+    - ./.env
+
+  mongodb_mde:
+      image: mongo:latest
+      container_name: "mongodb_mde"
+      env_file:
+        - ./.env
+      environment:
+        - MONGO_DATA_DIR=/data/mde_db
+        - MONGO_LOG_DIR=/dev/null
+      volumes:
+        - ./data/mde_db:/data/db
+      ports:
+        - ${MONGO_MDE_PORT}:${MONGO_MDE_PORT}
+      command: mongod --port ${MONGO_MDE_PORT} --smallfiles --logpath=/dev/null # --quiet
+      networks:
+        - esurv1
+
+networks:
+  esurv1:
+    driver: bridge

@@ -1,0 +1,22 @@
+﻿Code,Values…
+YN_LOOKUP,1^Yes,2^No
+SEX_LOOKUP,1^Male,2^Female,9^Not reported
+ETHNIC_LOOKUP,1^Hispanic or Latino,2^Not Hispanic or Latino,9^Not reported
+GLUCTEST_LOOKUP,1^Prediabetes diagnosed by blood glucose test,2^Prediabetes NOT diagnosed by blood glucose test
+GLUCTEST_ACCEPTED,1^FG,2^OGTT,3^A1c
+GDM_LOOKUP,1^Prediabetes determined by clinical diagnosis of GDM during previous pregnacy,2^Prediabetes NOT determined by GDM
+RISKTEST_LOOKUP,1^Prediabetes determined by risk test,2^Prediabetes NOT determined by risk test
+AIAN_LOOKUP,1^American Indian or Alaska Native,2^Not American Indian or Alaska Native
+ASIAN_LOOKUP,1^Asian,2^NOT Asian
+BLACK_LOOKUP,1^Black or African American,2^Not Black or African American
+NHOPI_LOOKUP,1^Native Hawaiian or Other Pacific Islander,2^NOT Native Hawaiian or Other Pacific Islander
+WHITE_LOOKUP,1^White,2^Not White
+HEIGHT_LOOKUP,99^Not Reported
+WEIGHT_LOOKUP,998^Pregnant (data will not be included when calculating average weight loss),999^Not recorded
+PA_LOOKUP,999^Not Recorded
+ENROLL_LOOKUP,1^,2^,3^,4^,5^,6^,7^,8^,9^
+PAYER_LOOKUP,1^Medicare,2^,3^,4^,5^,6^,7^,8^,9^
+STATE_FIPS_CODE,01^Alabama (AL),06^Califormia (CA),08^Colorado (CO),09^Connecticut (CT),17^Illinois (IL),18^Indiana (IN),19^Iowa (IA),26^Michigan (MI),29^Missouri (MO),31^Nebraska (NE),37^North Carolina (NC),41^Oregon (OR),42^Pennsylvania (PA),44^Rhode island (RI),45^South Carolina (SC),49^Utah (UT),50^Vermont (VT),54^West Virginia (WV),55^Wisconsin (WI),85^Southeast Alaska Regional health Consortium (SEARHC),92^Southcentral Foundation (SCF)
+EDU_LOOKUP,1^,2^,3^,4^,9^
+DMODE_LOOKUP,1^,2^,3^
+SESSIONTYPE_LOOKUP,C^,MU^,OM^

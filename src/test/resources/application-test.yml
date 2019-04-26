@@ -1,0 +1,51 @@
+server:
+  context-path: /serviceContext
+  port: 10000
+  apiContext:
+  versionContext: v
+
+spring:
+  application:
+    name: SERVICE-Service
+
+  profiles:
+    active: ${SPRING.PROFILE}
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    platform: h2
+    username: sa
+    password:
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+        ddl-auto: create-drop
+        dialect: org.hibernate.dialect.H2Dialect
+
+configuration:
+  pageInfo:
+    maxPageSize: 100
+    defaultPageSize: 20
+
+
+about:
+  summary: This is a stub for starting Spring REST RENAME_ME. It includes basic Boot configuration, Docker, and a About service that reads this YAML file.
+  docs: http://localhost:${server.port}/${server.context-path}/docs
+
+  versions:
+    - v1
+  contacts:
+    -
+      name: Marcelo Caldas
+      email: mcq1@cdc.gov
+      role: Soft. Architect
+
+---
+spring:
+  profiles: INT
+
+

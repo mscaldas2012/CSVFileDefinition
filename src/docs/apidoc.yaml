@@ -1,0 +1,102 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Spring REST Template
+  description: This is a stub for starting Spring REST RENAME_ME. It includes basic Boot configuration, Docker, and a About service that reads this YAML file.
+  version: "0.0.1"
+# the domain of the service
+host: localhost
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /context/v1
+produces:
+  - application/json
+tags:
+  - name: Metadata
+    description: Services that retrieve metadata about the service deployed.
+paths:
+  /about:
+    get:
+      tags:
+        - Metadata
+      summary: Describes the api and provide contact information
+      description: |
+        This endpoint simply retrieves documentation information and provide contact information.
+
+      responses:
+        200:
+          description: An page with basic information.
+          schema:
+            type: string
+
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /ping:
+    get:
+      tags:
+        - Metadata
+      summary: Validates the service is running and responding to requests.
+      responses:
+        200:
+          description: The service received the request and is listening.
+          schema:
+              type: string
+              example: "Hi there! I'm alive. You pinged me at 2017-01-01"
+        404:
+          description: The service is not running properly.
+
+  /version:
+    get:
+      tags:
+        - Metadata
+      summary: Retrieves the current version of the service deployed on the system.
+      responses:
+        200:
+          description: The current version is returned to the client.
+          schema:
+            type: string
+            example: "1.0.0-34"
+  /config:
+    get:
+      tags:
+      - Metadata
+      summary: Retrieves specific configuration about the service. 
+      responses:
+        200:
+          description: OK. Configuration is retrieved to user.
+            
+
+definitions:
+  ErrorMessage:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        format: ISO-8601 UTC based
+        example: "2017-09-14T12:44:35.200Z"
+      code:
+        type: string
+        description: Service specific categorization of errors.
+      description:
+        type: string
+        description: User friendly message about the error.
+      status:
+        type: integer
+        description: HTTP status code returned to user. Must match HTTP Status on header.
+      path:
+        type: string
+        description: The FULL URL that was called that generated this error.
+        format: URL
+      exception:
+        type: string
+        description: The exception, if any, associated with this error.
+    required:
+    - timestamp
+    - code
+    - description
+    - status
+    - path

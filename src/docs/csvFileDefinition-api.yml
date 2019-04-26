@@ -1,0 +1,306 @@
+openapi: "3.0.0"
+info:
+  title: "CSVFileDefinition"
+  description: "This document describes the API for MDE (Minimun Data Elements) Definition"
+  version: "1.0.0"
+  contact:
+    email: "surveillance@cdc.gov"
+ 
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+servers:
+  - url: https://localhost/mdeDef/v1
+    description: Development server
+  - url: https://qa/mdeDef/v1
+    description: QA server
+  
+tags:
+  - name: csvDef
+    description: CSV Definition
+
+paths:
+   /mde/{mdeCode}:
+    parameters:
+      - in: path
+        name: mdeCode
+        required: true
+        schema:
+          type: String
+      - in: query
+        name: version
+        required: false
+        default: LATEST
+        schema:
+          type: String
+
+    get:
+      tags:
+      - mdeDef
+      summary: Retrieves MDEDefinition based on code
+
+      responses:
+        '200':
+          $ref: '#/components/schemas/MDEDefinition'
+
+  /mde/parse:
+    post:
+      parameters:
+        - in: body
+          required: true
+          schema:
+            type: string
+          description: The raw content of a file to be converted into MDE model.
+
+      summary: This method accepts the Data as JSON and translates it into content ready to be persisted
+
+  /mde/generate:
+    post:
+      parameters:
+        - in: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/MDEFile'
+          description: The content to be translated into the File format to be persisted.
+      summary: This method accepts a MDEFile JSON object and formats it for data persistence following the MDE Rules.
+      responses:
+        '200':
+          schema:
+            type: string
+          description: The file format representation of the content passed into the service.
+
+components:
+  schemas:
+    MDEDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldDefinition'
+         
+    FieldDefinition:
+      type: object
+      properties:
+        fieldNumber:
+          type: integer
+          example: 1
+        category:
+          type: string
+          enum: ['Administrative', 'Screening and Assessment', 'Health Behavior Support Options', 'Risk Reduction Counseling']
+          example: 'Administrative'
+        itemNumber:
+          type: string
+          example: '0a'
+        name:
+          type: string
+          example: 'MDEVer'
+        label:
+          type: string
+          example: 'MDE Version'
+        rounds:
+          type: integer
+          example: 1
+        position:
+          type: integer
+          example: 1
+        type:
+          type: string
+          enum: [Numeric, Character]
+          example: 'Character'
+        itemLength:
+          type: integer
+          example: 3
+        leadingZeros:
+          type: boolean
+          example: false
+       
+        format:
+          type: string
+          description: can use for RegEx (zip codes, dates, etc)
+          enum: ['N/A', 'MMCCYY', 'MMDDCCYY']
+          example: 'N/A'
+        staticField:
+          type: boolean
+          example: false
+        possibleAnswers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PossibleAnswers'
+         
+          
+    PossibleAnswers:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerChoice'
+   
+    AnswerChoice:
+      type: object
+      properties:
+        code:
+          type: integer
+        rangeMin:
+          type: integer
+        rangeMax:
+          type: integer
+        label:
+          type: string
+         
+          
+    CollectionResults:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            page_info:
+              type: object
+              properties:
+                page_number:
+                  type: integer
+                page_size:
+                  type: integer
+                total_number_of_pages:
+                  type: integer
+                max_page_size:
+                  type: integer
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/newMessage"
+
+      MDEFile:
+          type: object
+          properties:
+            name:
+              type: string
+            rows:
+              type: array
+              items:
+                $ref: '#/components/schemas/Row'
+        Row:
+          type: object
+          properties:
+            rowNumber:
+              type: integer
+            fields:
+              type: array
+              items:
+                $ref: '#/components/schemas/Field'
+        Field:
+          type: object
+          properties:
+            fieldNumber:
+              type: integer
+            values:
+              type: array
+              items:
+                type: string
+ 
+    Error:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: ISO-8601 UTC based
+          example: "2017-09-14T12:44:35.200Z"
+        code:
+          type: string
+          description: Service specific categorization of errors.
+          example: 'RESOURCE_NOT_FOUND'
+        description:
+          type: string
+          description: User friendly message about the error.
+          example: "The number provided is invalid."
+        status:
+          type: integer
+          description: HTTP status code returned to user. Must match HTTP Status on header.
+          example: 400
+        path:
+          type: string
+          description: The Full URL that was called that generated this error.
+          format: URL
+          example: 'http://localhost/bluebox/v1/messages'
+        exception:
+          type: string
+          description: The exception, if any, associated with this error.
+          example: 'java.lang.NullPointerException'
+      required:
+        - timestamp
+        - code
+        - description
+        - status
+        - path
+  parameters:
+   
+    pageSize:
+      in: query
+      name: page_size
+      description: Number of records to be retrieved.
+      schema:
+        type: integer
+        default: 100
+    pageNumber:
+      in: query
+      name: page_number
+      description: The Page number to be retrieved. Fist page should be 1.
+      schema:
+        type: integer
+        default: 1
+   
+        
+  responses:
+    MessageAccepted:
+      description: Acknoledgement of receiving a message
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageReceipt'
+           
+    MessageList:
+      description: A list of all comments matching the query
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CollectionResults'
+           
+    NotFound:
+      description: Entity not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+           
+    IllegalInput:
+      description: Illegal input for operation. 
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+   
+            
+    BadRequest:
+      description: "Any error that is caused by the user - bad data sent, bad parameters, business rules violated, etc."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+           
+    ServerError:
+      description: "Any server side error that can occur."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+ 
