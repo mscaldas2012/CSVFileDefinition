@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
 @EntityScan("gov.cdc.nccdphp.esurveillance")
-//@EnableJpaRepositories(basePackages = {"gov.cdc.nccdphp.esurveillance"})
 public class SpringRESTBootstrap {
 	Log log = LogFactory.getLog(SpringRESTBootstrap.class);
 

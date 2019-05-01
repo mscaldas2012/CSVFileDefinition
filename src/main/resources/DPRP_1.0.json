@@ -110,7 +110,7 @@
             "label": "Asian",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "YN_LOOKUP"
+            "possibleAnswers": "ASIA_LOOKUP"
         },
         {
             "fieldNumber": 13,

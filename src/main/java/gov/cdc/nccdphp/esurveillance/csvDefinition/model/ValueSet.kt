@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "Value_sets")
 class ValueSet(val name: String, val choices: MutableList<AnswerChoice>) {
     fun addChoice(code: String, label: String) {
-        this.choices.add(AnswerChoice(code, label))
+        this.choices += (AnswerChoice(code, label))
     }
 }
 

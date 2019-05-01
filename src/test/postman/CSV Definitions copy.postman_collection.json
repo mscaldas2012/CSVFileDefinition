@@ -1,33 +1,35 @@
 {
 	"info": {
-		"_postman_id": "e03dce05-c995-42b3-8881-b48616347154",
-		"name": "MDE Definitions",
+		"_postman_id": "0b153c9b-82e3-4267-9421-94eaf1a1f1ed",
+		"name": "CSV Definitions copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"_postman_id": "567c1114-648e-4b11-9dce-06a9e9cc8c5c",
-			"name": "Get WWMDE",
+			"name": "Get DPRP File Definition",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{SERVER_URL}}:10000/mdeDefinition/v1/mde/WW_MDE?version=9.0.3",
+					"raw": "{{SERVER_URL}}:10000/fileDefinitionService/v1/csvDefinition/DPRP?version=1.0",
 					"host": [
 						"{{SERVER_URL}}"
 					],
 					"port": "10000",
 					"path": [
-						"mdeDefinition",
+						"fileDefinitionService",
 						"v1",
-						"mde",
-						"WW_MDE"
+						"csvDefinition",
+						"DPRP"
 					],
 					"query": [
 						{
 							"key": "version",
-							"value": "9.0.3"
+							"value": "1.0"
 						}
 					]
 				}
@@ -35,35 +37,88 @@
 			"response": []
 		},
 		{
-			"_postman_id": "bb06aba0-f1aa-4907-929e-31b0dc70043b",
-			"name": "Get Value Sets",
+			"name": "Get Invalid File Definition",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "{{SERVER_URL}}:10000/mdeDefinition/v1/mde/valueSet",
+					"raw": "{{SERVER_URL}}:10000/fileDefinitionService/v1/csvDefinition/invalidDef",
 					"host": [
 						"{{SERVER_URL}}"
 					],
 					"port": "10000",
 					"path": [
-						"mdeDefinition",
+						"fileDefinitionService",
 						"v1",
-						"mde",
-						"valueSet"
+						"csvDefinition",
+						"invalidDef"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"_postman_id": "dfc3d142-6352-4d3c-9279-200db1a887ef",
+			"name": "Get Value Sets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}:10000/fileDefinitionService/v1/valuesets",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"port": "10000",
+					"path": [
+						"fileDefinitionService",
+						"v1",
+						"valuesets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific Value Set - EDU",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{SERVER_URL}}:10000/fileDefinitionService/valuesets/EDU_LOOKUP/",
+					"host": [
+						"{{SERVER_URL}}"
+					],
+					"port": "10000",
+					"path": [
+						"fileDefinitionService",
+						"valuesets",
+						"EDU_LOOKUP",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Load data",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{SERVER_URL}}:10000/mdeDefinition/v1/info/loadData",
 					"host": [
@@ -81,7 +136,6 @@
 			"response": []
 		},
 		{
-			"_postman_id": "b3235ea7-101a-4849-aef1-7d11cd830932",
 			"name": "Parse Content",
 			"request": {
 				"method": "POST",

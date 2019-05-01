@@ -3,15 +3,12 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gov.cdc.nccdphp.esurveillance.View;
-import gov.cdc.nccdphp.esurveillance.data.DataLoader;
 import gov.cdc.nccdphp.esurveillance.csvDefinition.About;
 import gov.cdc.nccdphp.esurveillance.csvDefinition.EipServiceConfig;
+import gov.cdc.nccdphp.esurveillance.data.DataLoader;
 import gov.cdc.nccdphp.esurveillance.rest.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,11 +53,11 @@ public class InfoServiceController {
         return config;
     }
 
-    @GetMapping(value = "/loadData")
-    public String loadData() {
-        dataLoader.loadDataSets("ValueSets.csv");
+    @PostMapping(value = "/loadData")
+    public String loadData(@RequestBody String content) {
+        dataLoader.loadDataSets(content);
 
-        return "WW_MDE903 Sucessfully Loaded";
+        return "Value Sets Sucessfully Loaded";
     }
 
 }
