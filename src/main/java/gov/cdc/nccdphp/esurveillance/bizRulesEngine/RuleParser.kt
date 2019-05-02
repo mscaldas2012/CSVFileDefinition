@@ -16,19 +16,19 @@ import org.springframework.stereotype.Component
 @Component
 abstract class RuleParser {
     //Caches equations that have been parsed into Trees
-    var trees:HashMap<String, Node> = HashMap()
+    private var trees:HashMap<String, Node> = HashMap()
 
     fun buildFullTree(equation: String): Node {
         if (!trees.containsKey(equation)) {
             val exprSplit = run {
                 val expressions = "[\\+\\-\\*\\/\\^\\(\\)]|==|!=|>=|<=|> |< |IN|AFTER|BEF|AND|OR|NOT|$$"
                 val expressionRegEx = "(?<=$expressions)|(?=$expressions)".toRegex()
-                expressionRegEx.split(equation).filter { !it.isNullOrBlank() }.map { it.trim() }
+                expressionRegEx.split(equation).filter { !it.isBlank() }.map { it.trim() }
 
             }
             trees.put(equation,buildtree(exprSplit))
         }
-        return trees.get(equation)!!
+        return trees[equation]!!
 
     }
 
@@ -47,7 +47,7 @@ abstract class RuleParser {
             "NOT", "$$" -> {
                 val notNode: Node
                 var cp = 1
-                if (s[1].equals("(")) {
+                if (s[1] == "(") {
                     cp = findCloseParenthesis(s.subList(2, s.size))
                     notNode = Expression(null, s[0], buildtree(s.subList(2, cp + 1))) //Add the NOT operator
                     cp += 1 //Add close parenthesis
@@ -82,7 +82,7 @@ abstract class RuleParser {
      */
 
     private fun findEndOfCondition(subList: List<String>): Int {
-        return if (subList.size > 1 && "$$".equals(subList[0])) {
+        return if (subList.size > 1 && "$$" == subList[0]) {
             findCloseParenthesis(subList.subList(2, subList.size)) + 4
         } else 3
     }

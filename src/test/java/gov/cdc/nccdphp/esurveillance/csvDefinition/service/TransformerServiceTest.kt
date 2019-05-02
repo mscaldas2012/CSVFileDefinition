@@ -34,9 +34,8 @@ class TransformerServiceTest {
     }
 
 
-    fun parseContent(fileName: String): String {
-        val content = File(fileName).inputStream().reader().readText()
-        return content
+    private fun parseContent(fileName: String): String {
+        return File(fileName).inputStream().reader().readText()
     }
 
 }

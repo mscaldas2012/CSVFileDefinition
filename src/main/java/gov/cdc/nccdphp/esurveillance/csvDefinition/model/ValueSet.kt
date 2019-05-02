@@ -3,10 +3,10 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.model
 import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "Value_sets")
-class ValueSet(val name: String, val choices: MutableList<AnswerChoice>) {
+data class ValueSet(val name: String, val choices: MutableList<AnswerChoice> = emptyList<AnswerChoice>().toMutableList()) {
     fun addChoice(code: String, label: String) {
         this.choices += (AnswerChoice(code, label))
     }
 }
 
-class AnswerChoice(val code: String, val label: String)
+data class AnswerChoice(val code: String, val label: String)

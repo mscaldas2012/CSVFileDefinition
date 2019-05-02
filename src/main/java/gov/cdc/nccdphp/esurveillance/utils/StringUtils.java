@@ -313,7 +313,6 @@ public abstract class StringUtils {
 	 * @param delimiter a {@link String} object.
 	 * @return an array of {@link String} objects.
 	 */
-	@SuppressWarnings("unchecked")
 	public static String[] toArrayWithDelimiters(String str, String delimiter) {
         Scanner scanner = new Scanner(str).useDelimiter(delimiter);
         if (isNotEmpty(str)) {

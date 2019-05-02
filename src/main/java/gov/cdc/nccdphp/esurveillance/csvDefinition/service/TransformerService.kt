@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Service
-class TransformerService(val definitionService: CSVDefinitionService) {
+class TransformerService(private val definitionService: CSVDefinitionService) {
 
     fun parseContentAsJson(defCode: String, version: String, content: String): String {
         val def = definitionService.getFileDefinition(defCode, version)
-        var result:String = ""
+        var result = ""
         content.split("\n").drop(1).forEach { row ->
             var i = 0
             val json = Json {
@@ -34,7 +34,7 @@ class TransformerService(val definitionService: CSVDefinitionService) {
                 result += ","
             result += json
         }
-        return result;
+        return result
     }
 
     fun parseContentAsCSVFile(content: String): CSVFile {

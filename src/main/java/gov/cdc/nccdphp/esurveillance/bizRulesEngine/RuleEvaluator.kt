@@ -22,7 +22,7 @@ import java.util.*
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Component
-abstract class RuleEvaluator(val ruleParser: RuleParser) {
+abstract class RuleEvaluator(private val ruleParser: RuleParser) {
     fun calculateField(equation: String, row: DataRow): Any? {
         val ruleSetRegEx = "\\|\\|".toRegex()
         val ruleSet = ruleSetRegEx.split(equation)

@@ -1,10 +1,7 @@
 package gov.cdc.nccdphp.esurveillance.csvDefinition.service
 
 import gov.cdc.nccdphp.esurveillance.bizRulesEngine.RuleEvaluator
-import gov.cdc.nccdphp.esurveillance.bizRulesEngine.model.DataRow
-import gov.cdc.nccdphp.esurveillance.validation.model.FieldDefinition
 import gov.cdc.nccdphp.esurveillance.validation.model.FileDefinition
-import gov.cdc.nccdphp.esurveillance.validation.model.RowValidationDefinition
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -27,7 +24,7 @@ class CrossRowValidator {
     @Autowired
     lateinit var valueSetService: ValueSetServices
 
-    lateinit var calculatedField: RuleEvaluator
+    private lateinit var calculatedField: RuleEvaluator
 
 
     fun configure(config: String, version: String) {
@@ -38,9 +35,6 @@ class CrossRowValidator {
         definition = fileDefinitionService.getFileDefinition(config, version)
         val ruleParser = RuleParserMDE(definition as CSVDefinition)
         calculatedField = CalculatedFieldMDE(ruleParser)
-//        calculatedField = RuleEvaluator(fileDefinitionService).apply {
-//            configure(config, version)
-//        }
     }
 
     @Throws(Exception::class)
@@ -48,9 +42,8 @@ class CrossRowValidator {
         if (this.config == null) {
             throw Exception("Validator not properly configured!")
         }
-        val report = ValidationReport()
-//        definition!!.rowValidation.forEach {  validateScope(it, file, definition!!) }
-        return report
+        //        definition!!.rowValidation.forEach {  validateScope(it, file, definition!!) }
+        return ValidationReport()
     }
 
 //    private fun validateScope(scope: RowValidationDefinition, file: CSVFile, definition: FileDefinition) {

@@ -21,9 +21,10 @@ import kotlin.system.measureTimeMillis
 @RunWith(SpringRunner::class)
 @SpringBootTest
 class ValidatorTest {
-    val WW_MDE = "DPRP"
-    val VERSION = "1.0"
-
+    companion object {
+        const val WW_MDE = "DPRP"
+        const val VERSION = "1.0"
+    }
     @Autowired
     internal var transformer: TransformerService? = null
     @Autowired
@@ -44,16 +45,15 @@ class ValidatorTest {
         }
         println("it took $time millisendos ")
         println("Found ${report!!.errors.size} errors!")
-        println("report =\n ${report}")
+        println("report =\n $report")
     }
 
 
     @Throws(InvalidDataException::class)
     private fun parse(): CSVFile {
         val content = getContent("testFile.csv").reader().readText()
-        val file = transformer!!.parseContentAsCSVFile( content)
         //println("file = $file")
-        return file
+        return transformer!!.parseContentAsCSVFile( content)
     }
 
     fun getContent(fileName: String): InputStream {

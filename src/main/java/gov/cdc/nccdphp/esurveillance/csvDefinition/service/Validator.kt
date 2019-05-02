@@ -27,23 +27,20 @@ class Validator {
 
     @Autowired
     lateinit  var mdeDefinition: CSVDefinitionService
-    //@Autowired
-    //lateinit var valueSetService: ValueSetServices
+    @Autowired
+    lateinit var valueSetService: ValueSetServices
 
-    lateinit var calculatedField: RuleEvaluator
+    private lateinit var calculatedField: RuleEvaluator
 
 
     fun configure(config: String, version: String) {
         this.config = config
         this.version = version
-        //this.valueSets = valueSetService.getValueSets(this.config)
+        this.valueSets = valueSetService.getValueSetsAsMap().block()
 
         definition = mdeDefinition.getFileDefinition(config, version)
         val ruleParser = RuleParserMDE(definition as CSVDefinition)
         calculatedField = CalculatedFieldMDE(ruleParser)
-//                .apply {
-//            configure(config, version)
-//        }
     }
 
     @Throws(Exception::class)
@@ -58,12 +55,12 @@ class Validator {
 
     private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, report: ValidationReport) {
         fieldCollection.forEach {
-            validateField(row, row.fields.filter { a -> a.fieldNumber == it.path }.first(), it, report)}
+            validateField(row, row.fields.first { a -> a.fieldNumber == it.path }, it, report)}
     }
 
     private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
         validateRequired(row.rowNumber, field, fieldDef, report)
-        if (!field.value.isNullOrEmpty()) { //At least one value is present...
+        if (field.value.isNotEmpty()) {
             validateType(row.rowNumber, field, fieldDef, report)
             validateValue(row.rowNumber, field, fieldDef, report)
             if (fieldDef.format != null)
@@ -81,14 +78,14 @@ class Validator {
         }
     }
     private fun validateRequired(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
-        if (fieldDef.required && field.value.isNullOrEmpty()) { //None of the values are provided...
+        if (fieldDef.required && field.value.isEmpty()) { //None of the values are provided...
             val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Field is required")
             report.addError(error)
         }
     }
 
     private fun validateFormat(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
-            if (!field.value.isNullOrBlank()) {
+            if (!field.value.isBlank()) {
                 var matches = true
                 when (fieldDef.format) {
                     "N/A" -> {
@@ -109,8 +106,8 @@ class Validator {
     }
 
     private fun validateType(rowNumber: Int, field: DataField,fieldDef: FieldDefinition, report: ValidationReport) {
-        if (!field.value.isNullOrBlank()) {
-            when (fieldDef.type!!.toUpperCase()) {
+        if (!field.value.isBlank()) {
+            when (fieldDef.type.toUpperCase()) {
                 "INT" -> try {
                     Integer.parseInt(field.value)
                 } catch (e: NumberFormatException) {
@@ -130,7 +127,7 @@ class Validator {
         //Check if Range is defined - if it is and no issues, we're good, but if it fails need to validate if is a valid coded value
         if (fieldDef.rangeMin!! > 0 || fieldDef.rangeMax!! > 0) { //Range is defined...
                 val value = field.value
-                if (!value.isNullOrBlank()) {
+                if (!value.isBlank()) {
                     try {
                         val intvalue = Integer.parseInt(value)
                         if (fieldDef.rangeMin!! > 0 && intvalue < fieldDef.rangeMin!!) {
@@ -165,7 +162,7 @@ class Validator {
     }
 
     private fun validatePossibleAnswers(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
-            if (!(field.value.isNullOrBlank())) {
+            if (!(field.value.isBlank())) {
                 if (answerNotValid(field, fieldDef)) {
                     val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Answer provided is not part of a valid possible answer.", field.value)
                     report.addError(error)

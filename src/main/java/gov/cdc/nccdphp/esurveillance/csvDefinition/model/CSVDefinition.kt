@@ -1,8 +1,6 @@
 package gov.cdc.nccdphp.esurveillance.csvDefinition.model
 
-import gov.cdc.nccdphp.esurveillance.validation.model.FieldDefinition
 import gov.cdc.nccdphp.esurveillance.validation.model.FileDefinition
-import gov.cdc.nccdphp.esurveillance.validation.model.RowValidationDefinition
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.CompoundIndex
 import org.springframework.data.mongodb.core.mapping.Document

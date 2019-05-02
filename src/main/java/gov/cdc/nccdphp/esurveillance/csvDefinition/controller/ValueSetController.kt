@@ -2,10 +2,11 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.controller
 
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.ValueSetServices
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.apache.commons.logging.Log
+import org.springframework.web.bind.annotation.*
+import reactor.core.publisher.Flux
+import org.apache.commons.logging.LogFactory
+
 
 /**
  *
@@ -17,13 +18,41 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/valuesets")
 class ValueSetController(private val valueSetServices: ValueSetServices) {
 
+    companion object {
+        val LOG: Log = LogFactory.getLog(ValueSetController::class.java)
+    }
+    private var vsCache: MutableMap<String, ValueSet>? = null
+
     @GetMapping("")
-    fun getAll(): Map<String, ValueSet> {
+    fun getAll(): MutableMap<String, ValueSet> {
+        LOG.info("AUDIT: Retrieving ValueSets Map")
+        return getValueSets()
+    }
+
+    @GetMapping("/flux")
+    fun getAllFlux(): Flux<ValueSet> {
+        LOG.info("AUDIT: Retrieving ValueSets")
         return valueSetServices.getValueSets()
     }
 
     @GetMapping("/{valueSetName}")
     fun getValueSet(@PathVariable valueSetName: String): ValueSet? {
-        return valueSetServices.getValueSets().get(valueSetName)
+        LOG.info("AUDIT: Retrieving ValueSet $valueSetName")
+        val vs =  getValueSets()
+        return vs.getValue(valueSetName)
+    }
+
+    @DeleteMapping("/cache")
+    fun invalidateCache() {
+        LOG.info("AUDIT: Clearing cache")
+        vsCache = null
+    }
+
+    private fun getValueSets(): MutableMap<String, ValueSet> {
+        if (vsCache == null) {
+            LOG.info("AUDIT: Initializing Cache")
+            vsCache = valueSetServices.getValueSetsAsMap().block()
+        }
+        return vsCache!!
     }
 }

@@ -21,13 +21,16 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/info/")
 @ApiVersion({1})
 public class InfoServiceController {
-    @Autowired
-    private DataLoader dataLoader;
+    private final DataLoader dataLoader;
     @Autowired
     private About about;
 
     @Autowired
     private EipServiceConfig config;
+
+    public InfoServiceController(DataLoader dataLoader) {
+        this.dataLoader = dataLoader;
+    }
 
     @JsonView(View.Summary.class)
     @GetMapping(value="/about")

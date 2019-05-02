@@ -1,6 +1,5 @@
 package gov.cdc.nccdphp.esurveillance.data
 
-import gov.cdc.nccdphp.esurveillance.csvDefinition.model.AnswerChoice
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.repository.ValueSetMongoRepo
 import org.apache.commons.logging.LogFactory
@@ -30,21 +29,21 @@ class DataLoader {
                 val values = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
 
-                val valueSet = ValueSet(values[0], emptyList<AnswerChoice>().toMutableList())
+                val valueSet = ValueSet(values[0])
                 for (i in 1 until values.size) { //Add all possible value Sets:
-                    val vs_code = values[i].split("\\^".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                    valueSet.addChoice(vs_code[0], vs_code[1])
+                    val vsCode = values[i].split("\\^".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    valueSet.addChoice(vsCode[0], vsCode[1])
                 }
                 valueSetRepo!!.save(valueSet)
             }
         }
     }
 
-    private fun getDoubleValue(value: String?): Double {
-        return if (value == null || value.trim { it <= ' ' }.length == 0) {
-            0.0
-        } else {
-            value.toDouble()
-        }
-    }
+//    private fun getDoubleValue(value: String?): Double {
+//        return if (value == null || value.trim { it <= ' ' }.length == 0) {
+//            0.0
+//        } else {
+//            value.toDouble()
+//        }
+//    }
 }

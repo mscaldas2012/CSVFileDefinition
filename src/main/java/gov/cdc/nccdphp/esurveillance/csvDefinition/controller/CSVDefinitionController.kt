@@ -1,14 +1,13 @@
 package gov.cdc.nccdphp.esurveillance.csvDefinition.controller
 
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.CSVFile
-import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.CSVDefinitionService
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.TransformerService
-import gov.cdc.nccdphp.esurveillance.csvDefinition.service.ValueSetServices
 import gov.cdc.nccdphp.esurveillance.rest.exceptions.InvalidDataException
 import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES
 import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt
 import gov.cdc.nccdphp.esurveillance.validation.model.FileDefinition
+import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -29,13 +28,10 @@ class CSVDefinitionController {
     lateinit var service:CSVDefinitionService
 
     @Autowired
-    lateinit var valueSetServices:ValueSetServices
-
-    @Autowired
     lateinit var transformer:TransformerService
 
     companion object {
-        val log = LogFactory.getLog(CSVDefinitionController.javaClass)
+        val log: Log = LogFactory.getLog(CSVDefinitionController::class.java)
     }
     @GetMapping("/{csvCode}")
     fun getMDE(@PathVariable csvCode: String, @RequestParam version: Optional<String>): FileDefinition {
@@ -62,8 +58,7 @@ class CSVDefinitionController {
     @ExceptionHandler(org.springframework.dao.EmptyResultDataAccessException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleNotFoundError(req: HttpServletRequest, e: org.springframework.dao.EmptyResultDataAccessException): ErrorReceipt {
-        val error = ErrorReceipt(ERROR_CODES.BAD_REQUEST, "Configuration not found", 400, req.servletPath,  null)
-        return error
+        return ErrorReceipt(ERROR_CODES.BAD_REQUEST, "Configuration not found", 400, req.servletPath,  null)
     }
 
 }

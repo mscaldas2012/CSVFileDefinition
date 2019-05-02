@@ -1,8 +1,9 @@
 server:
-  context-path: /serviceContext
   port: 10000
   apiContext:
   versionContext: v
+  servlet:
+    context-path: /serviceContext
 
 spring:
   application:

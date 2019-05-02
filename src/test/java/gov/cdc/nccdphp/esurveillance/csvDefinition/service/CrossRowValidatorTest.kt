@@ -19,8 +19,10 @@ import java.io.InputStream
 @RunWith(SpringRunner::class)
 @SpringBootTest
 class CrossRowValidatorTest {
-    val WW_MDE = "DPRP"
-    val VERSION = "1.0"
+    companion object {
+        const val WW_MDE = "DPRP"
+        const val VERSION = "1.0"
+    }
 
     @Autowired
     internal var transformer: TransformerService? = null
@@ -45,11 +47,10 @@ class CrossRowValidatorTest {
     @Throws(InvalidDataException::class)
     private fun parse(): CSVFile {
         val content = getContent("testFile.mde").reader().readText()
-        val file = transformer!!.parseContentAsCSVFile(content)
         //println("file = $file")
-        return file
+        return transformer!!.parseContentAsCSVFile(content)
     }
-    fun getContent(fileName: String): InputStream {
+    private fun getContent(fileName: String): InputStream {
         return File(fileName).inputStream()
     }
 }

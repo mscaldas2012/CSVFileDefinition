@@ -18,7 +18,7 @@ class CalculatedFieldMDE(ruleParser: RuleParser): RuleEvaluator(ruleParser) {
             "NULL" == operand.toUpperCase() -> return null
             operand.startsWith("$") -> {
                 //TODO::Use Hashmaps on Rows for faster finding of field
-                val field = row.fields.find { f -> f.fieldNumber.equals(operand.substring(1, operand.length)) }
+                val field = row.fields.find { f -> f.fieldNumber == operand.substring(1, operand.length).toInt() }
                 fieldValue = field?.value
             }
             operand.contains("~") -> {

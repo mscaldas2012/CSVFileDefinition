@@ -2,9 +2,9 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.service
 
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.repository.ValueSetMongoRepo
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 /**
  *
@@ -13,13 +13,18 @@ import java.util.stream.Collectors
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Service
-class ValueSetServices {
-    @Autowired
-    lateinit var repo: ValueSetMongoRepo
+class ValueSetServices(val repo: ValueSetMongoRepo) {
 
-    fun getValueSets(): Map<String, ValueSet> {
-        val list = repo.findAll()
-        return list.stream().collect(Collectors.toMap<ValueSet, String, ValueSet>({ item -> item.name }, { item -> item }))
+    fun getValueSetsAsMap(): Mono<MutableMap<String, ValueSet>> {
+        val flux = repo.findAll()
 
+        return flux.collectMap(
+                        { item -> item.name },
+                        { item -> item})
+                //.block()
+    }
+
+    fun getValueSets(): Flux<ValueSet> {
+        return repo.findAll()
     }
 }
