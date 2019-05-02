@@ -185,7 +185,8 @@
             "type": "Numeric",
             "required": true,
             "rangeMin": 1,
-            "rangeMax": 99
+            "rangeMax": 26,
+            "possibleAnswers": "SESSIONID_LOOKUP"
         },
         {
             "fieldNumber": 21,
