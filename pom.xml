@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gov.cdc.nccdphp.esurveillance</groupId>
@@ -22,16 +22,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-        <springfox.version>2.9.2</springfox.version>
+		<springfox.version>2.9.2</springfox.version>
 		<docker.image.prefix>esurveillance</docker.image.prefix>
-        <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
-        <kotlin.version>1.3.21</kotlin.version>
-    </properties>
+		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+		<kotlin.version>1.3.21</kotlin.version>
+	</properties>
 
 	<dependencies>
 		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+		<!--<groupId>org.springframework.boot</groupId>-->
+		<!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
 		<!--</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -65,11 +65,11 @@
 			<version>3.0.1</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.6</version>
-        </dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.6</version>
+		</dependency>
 		<!-- Storage -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -81,9 +81,9 @@
 			<version>3.4.2</version>
 		</dependency>
 
-        <!--<dependency>-->
-			<!--<groupId>com.h2database</groupId>-->
-			<!--<artifactId>h2</artifactId>-->
+		<!--<dependency>-->
+		<!--<groupId>com.h2database</groupId>-->
+		<!--<artifactId>h2</artifactId>-->
 		<!--</dependency>-->
 
 		<dependency>
@@ -91,45 +91,45 @@
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${springfox.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
-            <scope>compile</scope>
-        </dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
 		<!-- compile "org.jetbrains.kotlin:kotlin-reflect:$ktVersion" -->
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>2.0.13.RELEASE</version>
-        </dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-test</artifactId>
+			<version>${kotlin.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>2.0.13.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.vaadin.external.google</groupId>
@@ -137,16 +137,16 @@
 			<version>0.0.20131108.vaadin1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core -->
-<!--		<dependency>-->
-<!--			<groupId>org.jetbrains.kotlinx</groupId>-->
-<!--			<artifactId>kotlinx-coroutines-core</artifactId>-->
-<!--			<version>1.2.1</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.github.fluidsonic</groupId>-->
-<!--			<artifactId>fluid-mongo</artifactId>-->
-<!--			<version>0.9.5</version>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.jetbrains.kotlinx</groupId>-->
+		<!--			<artifactId>kotlinx-coroutines-core</artifactId>-->
+		<!--			<version>1.2.1</version>-->
+		<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>com.github.fluidsonic</groupId>-->
+		<!--			<artifactId>fluid-mongo</artifactId>-->
+		<!--			<version>0.9.5</version>-->
+		<!--		</dependency>-->
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver-reactivestreams</artifactId>
@@ -190,10 +190,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
 
 			<!-- Adds the version into Manifest file -->
 			<plugin>
@@ -208,29 +208,29 @@
 					</archive>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
+			<plugin>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-plugin</artifactId>
+				<version>${kotlin.version}</version>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
 						<configuration>
 							<sourceDirs>
 								<sourceDir>${project.basedir}/src/main/java</sourceDir>
 							</sourceDirs>
 						</configuration>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
 						<configuration>
 							<sourceDirs>
 								<sourceDir>${project.basedir}/src/test/java</sourceDir>
@@ -238,32 +238,32 @@
 						</configuration>
 
 					</execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>testCompile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+				</executions>
+				<configuration>
+					<jvmTarget>1.8</jvmTarget>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<reporting>
