@@ -15,6 +15,7 @@ open class FieldDefinition(@Field("fieldNumber") val path: Int, val type: String
 
     var category: String? = null
     var label: String? = null
+    var relatedInfo: String? = null
 
 
 
