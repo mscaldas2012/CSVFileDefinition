@@ -314,15 +314,16 @@ public abstract class StringUtils {
 	 * @return an array of {@link String} objects.
 	 */
 	public static String[] toArrayWithDelimiters(String str, String delimiter) {
-        Scanner scanner = new Scanner(str).useDelimiter(delimiter);
-        if (isNotEmpty(str)) {
-            List<String> result = new ArrayList<String>();
-            while (scanner.hasNext()) {
-                result.add(scanner.next().trim());
-            }
-            return result.toArray(new String[]{});
-        }
-        return null;
+        try (Scanner scanner = new Scanner(str).useDelimiter(delimiter)) {
+			if (isNotEmpty(str)) {
+				List<String> result = new ArrayList<String>();
+				while (scanner.hasNext()) {
+					result.add(scanner.next().trim());
+				}
+				return result.toArray(new String[]{});
+			}
+			return null;
+		}
 	}
 	/**
 	 * Replace oldstr with newstr within line

@@ -55,7 +55,8 @@
             "label": "Glucose Test",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "GLUCTEST_LOOKUP"
+            "possibleAnswers": "GLUCTEST_LOOKUP",
+            "relatedInfo": "Acceptable tests are ..."
         },
         {
             "fieldNumber": 7,
