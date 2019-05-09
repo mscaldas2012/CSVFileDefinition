@@ -1,13 +1,13 @@
 server:
   servlet:
-    context-path: /fileDefinitionService
+    context-path: /fileDefinition
   port: 10000
   apiContext:
   versionContext: v
 
 spring:
   application:
-    name: MDEDefinition-Service
+    name: FILEDefinition-Service
 
   profiles:
     active: ${SPRING_PROFILE}

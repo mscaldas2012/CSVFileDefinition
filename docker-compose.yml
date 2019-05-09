@@ -3,9 +3,9 @@ version: '3.1'
 services:
 
   mdedef:
-    image: esurveillance/mdedefinition
+    image: esurveillance/filedefinitions
     restart: always
-    container_name: mdedefinition
+    container_name: filedefinitions
     ports:
       - 10000:10000
     depends_on:

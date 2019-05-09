@@ -10,7 +10,7 @@ FROM openjdk:8-jre-alpine
 
 VOLUME /tmp
 
-COPY --from=builder  /usr/src/app/target/mdedefinitions-0.0.1-1.jar ./MDEDefinitions.jar
+COPY --from=builder  /usr/src/app/target/filedefinitions-0.0.1-1.jar ./fileDefinitions.jar
 
-RUN sh -c 'touch ./MDEDefinitions.jar'
-ENTRYPOINT ["java","-Dspring.profiles.active=DOCKER","-Djava.security.egd=file:/dev/./urandom","-jar","./MDEDefinitions.jar"]
+RUN sh -c 'touch ./fileDefinitions.jar'
+ENTRYPOINT ["java","-Dspring.profiles.active=DOCKER","-Djava.security.egd=file:/dev/./urandom","-jar","./fileDefinitions.jar"]
