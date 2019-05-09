@@ -1,7 +1,10 @@
 package gov.cdc.nccdphp.esurveillance.data
 
+import com.google.gson.Gson
+import gov.cdc.nccdphp.esurveillance.csvDefinition.model.CSVDefinition
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.repository.ValueSetMongoRepo
+import gov.cdc.nccdphp.esurveillance.csvDefinition.service.CSVDefinitionService
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -13,9 +16,7 @@ import java.util.*
  */
 
 @Component
-class DataLoader {
-    @Autowired
-    internal var valueSetRepo: ValueSetMongoRepo? = null
+class DataLoader(val valueSetRepo: ValueSetMongoRepo, val fileDefService: CSVDefinitionService) {
 
     private val log = LogFactory.getLog(DataLoader::class.java)
 
@@ -34,16 +35,15 @@ class DataLoader {
                     val vsCode = values[i].split("\\^".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     valueSet.addChoice(vsCode[0], vsCode[1])
                 }
-                valueSetRepo!!.save(valueSet)
+                valueSetRepo.save(valueSet)
             }
         }
     }
 
-//    private fun getDoubleValue(value: String?): Double {
-//        return if (value == null || value.trim { it <= ' ' }.length == 0) {
-//            0.0
-//        } else {
-//            value.toDouble()
-//        }
-//    }
+    fun loadDefinition(content: String) {
+        val gson = Gson()
+        val newDef =gson.fromJson(content, CSVDefinition::class.java)
+        fileDefService.save(newDef)
+
+    }
 }
