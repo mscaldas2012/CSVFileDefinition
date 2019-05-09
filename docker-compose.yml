@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
 
-  mdedef:
+  csvfiledef:
     image: esurveillance/filedefinitions
     restart: always
     container_name: filedefinitions
@@ -11,7 +11,7 @@ services:
     depends_on:
       - mongodb_mde
     networks:
-      - esurv1
+      - dprp
     env_file:
     - ./.env
 
@@ -29,8 +29,8 @@ services:
         - ${MONGO_MDE_PORT}:${MONGO_MDE_PORT}
       command: mongod --port ${MONGO_MDE_PORT} --smallfiles --logpath=/dev/null # --quiet
       networks:
-        - esurv1
+        - dprp
 
 networks:
-  esurv1:
+  dprp:
     driver: bridge
