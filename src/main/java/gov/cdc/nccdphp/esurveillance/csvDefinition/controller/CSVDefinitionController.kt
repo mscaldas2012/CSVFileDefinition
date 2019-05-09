@@ -49,6 +49,12 @@ class CSVDefinitionController {
         return transformer.parseContentAsCSVFile(content)
     }
 
+    @PostMapping("parseJSON")
+    @Throws(InvalidDataException::class)
+    fun parseContentJson(@RequestBody content: String): String {
+        return transformer.parseContentAsJson("DPRP", "1.0", content)
+    }
+
     @PostMapping("generate")
     @Throws(InvalidDataException::class)
     fun generateFile(@RequestParam defCode: String, @RequestParam version: String, @RequestBody file: CSVFile): String {

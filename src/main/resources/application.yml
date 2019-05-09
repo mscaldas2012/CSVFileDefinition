@@ -15,8 +15,8 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://jarvis:C0nf!gur3r#IM@mongodb:27017/file_definition
-      #uri: mongodb://10.128.41.191:27055/file_definition
+      #uri: mongodb://jarvis:C0nf!gur3r#IM@mongodb:27017/file_definition
+      uri: mongodb://10.128.41.191:27055/file_definition
 eip-service-config:
   pageInfo:
     maxPageSize: 100

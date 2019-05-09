@@ -73,7 +73,7 @@ class Json() {
         json.put(this, value.json)
     }
     infix fun String.asInt(value: String) {
-        val intvalue = value.toInt()
+        val intvalue = value.trim().replace("\r","").toInt()
         json.put(this, intvalue)
     }
 
