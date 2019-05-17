@@ -15,7 +15,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://jarvis:C0nf!gur3r#IM@mongodb:27017/file_definition
+      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/file_definition
       #uri: mongodb://10.128.41.191:27055/file_definition
 eip-service-config:
   pageInfo:
@@ -41,7 +41,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://${MONGO_MDE_HOST}:${MONGO_MDE_PORT}/file_definitions
+      uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/file_definitions
 
 
 
