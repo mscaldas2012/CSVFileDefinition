@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Repository
-interface ValueSetMongoRepo: MongoRepository<ValueSet, String>
+interface ValueSetMongoRepo: MongoRepository<ValueSet, String> {
+    fun findByName(name: String): ValueSet
+}

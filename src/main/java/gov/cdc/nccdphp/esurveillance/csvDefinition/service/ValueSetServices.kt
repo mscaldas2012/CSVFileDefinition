@@ -16,7 +16,6 @@ class ValueSetServices(val repo: ValueSetMongoRepo) {
 
     fun getValueSetsAsMap(): MutableMap<String, ValueSet> {
         val list = repo.findAll()
-
         return list.stream().collect(Collectors.toMap<ValueSet, String, ValueSet>({ item -> item.name }, { item -> item }))
     }
 

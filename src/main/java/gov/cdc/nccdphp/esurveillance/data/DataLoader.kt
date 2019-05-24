@@ -7,6 +7,7 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.repository.ValueSetMongoRepo
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.CSVDefinitionService
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -30,10 +31,16 @@ class DataLoader(val valueSetRepo: ValueSetMongoRepo, val fileDefService: CSVDef
                 val values = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
 
-                val valueSet = ValueSet(values[0])
+                val valueSet = ValueSet(null, values[0])
                 for (i in 1 until values.size) { //Add all possible value Sets:
                     val vsCode = values[i].split("\\^".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     valueSet.addChoice(vsCode[0], vsCode[1])
+                }
+                try {
+                    val found = valueSetRepo.findByName(valueSet.name)
+                    valueSetRepo.delete(found)
+                } catch (e: EmptyResultDataAccessException) {
+                    //Nothing to delete...
                 }
                 valueSetRepo.save(valueSet)
             }
