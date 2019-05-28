@@ -60,8 +60,7 @@ class InfoController(val dataLoader: DataLoader) {
         else {
             dataLoader.loadDefinition(content)
         }
-
-        return "Value Sets Sucessfully Loaded"
+        return "$config Successfully Loaded"
     }
 
 
