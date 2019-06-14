@@ -14,10 +14,10 @@ WHITE_LOOKUP,1^White,2^Not White
 HEIGHT_LOOKUP,99^Not Reported
 WEIGHT_LOOKUP,998^Pregnant (data will not be included when calculating average weight loss),999^Not recorded
 PA_LOOKUP,999^Not Recorded
-SESSIONID_LOOKUP,99^Make Up
-ENROLL_LOOKUP,1^Non-Primarty Care Health Professional,2^Primary Care Provider/Office or Specialist,3^Community-based org or Community halth Worker,4^Self,5^Family/Friends,6^An employer or Employer's Wellness Program,7^Insurance Company,8^Media,9^Other,10^Not reported
-PAYER_LOOKUP,1^Medicare,2^Medicaid,3^Priovate Insurer,4^Self-Pay,5^Dual Eligible,6^Grant Funding,7^Employer,8^Other,9^Not Reported
-US_STATES,AL^Alabama,AK^Alaska,AZ^Arizona,AR^Arkansas,CA^California,CO^Colorado,CT^Connecticut,DE^Delaware,DC^District of Columbia,FL^Florida,GA^Georgia,HI^HIwaii,ID^Idaho,IL^Illinois,IN^Indiana,IA^Iowa,KS^Kansas,KY^Kentucky,LA^Louisiana,ME^Maine,MD^Mariland,MA^Massachusetts,MI^Michigan,MN^Minnesota,MS^Mississippi,MO^Missouri,MT^Montana,NE^Nebraska,NV^Nevada,NH^New Hampshire,NJ^New Jersey,NM^New Mexico,NY^New York,NC^North Carolina,ND^North Dakota,OH^Ohio,OK^Oklahoma,OR^Oregon,PA^Pennsylvania,RI^Rhode Island,SC^South Carolina,SD^South Dakota,TN^Tennessee,TX^Texas,UT^Utah,VT^Vermont,VA^Virginia,WA^Washington,WV^West Virginia,WI^Wisconsin,WY^Wyoming,PR^Puerto Rico,VI^Virgin islands,AS^American Samoa,FM^Federated States of Micronesia,GU^Guam,MH^Marshall Islands,MP^Northern Mariana islands,PW^Palau
+SESSIONID_LOOKUP,88^Ongoing maintenance or make up session,99^Core maintenance or make up session
+ENROLL_LOOKUP,1^Non-Primary Care Health Professional,2^Primary Care Provider/Office or Specialist,3^Community-based org or Community Health Worker,4^Self,5^Family/Friends,6^An employer or Employer's Wellness Program,7^Insurance Company,8^Media,9^Other,10^Not reported
+PAYER_LOOKUP,1^Medicare,2^Medicaid,3^Private Insurer,4^Self-Pay,5^Dual Eligible,6^Grant Funding,7^Employer,8^Other,9^Not Reported
+US_STATES,AL^Alabama,AK^Alaska,AZ^Arizona,AR^Arkansas,CA^California,CO^Colorado,CT^Connecticut,DE^Delaware,DC^District of Columbia,FL^Florida,GA^Georgia,HI^Hawaii,ID^Idaho,IL^Illinois,IN^Indiana,IA^Iowa,KS^Kansas,KY^Kentucky,LA^Louisiana,ME^Maine,MD^Maryland,MA^Massachusetts,MI^Michigan,MN^Minnesota,MS^Mississippi,MO^Missouri,MT^Montana,NE^Nebraska,NV^Nevada,NH^New Hampshire,NJ^New Jersey,NM^New Mexico,NY^New York,NC^North Carolina,ND^North Dakota,OH^Ohio,OK^Oklahoma,OR^Oregon,PA^Pennsylvania,RI^Rhode Island,SC^South Carolina,SD^South Dakota,TN^Tennessee,TX^Texas,UT^Utah,VT^Vermont,VA^Virginia,WA^Washington,WV^West Virginia,WI^Wisconsin,WY^Wyoming,PR^Puerto Rico,VI^Virgin islands,AS^American Samoa,FM^Federated States of Micronesia,GU^Guam,MH^Marshall Islands,MP^Northern Mariana islands,PW^Palau
 EDU_LOOKUP,1^Less than 12 grade,2^Grade or 12 GED,3^College 1 year to 3 years,4^College - 4 years or more,9^Not reported
-DMODE_LOOKUP,0^NEED_MODE,1^InPerson,2^OnlIne,3^Distance Learning,4^Combination
+DMODE_LOOKUP,0^Delivery Mode Not Entered,1^In Person,2^Online,3^Distance Learning,4^Combination
 SESSIONTYPE_LOOKUP,C^Core Session,CM^Core Maintenance,OM^Ongoing Maintenance,MU^Make-up Session
