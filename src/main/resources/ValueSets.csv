@@ -11,7 +11,6 @@ ASIAN_LOOKUP,1^Asian,2^NOT Asian
 BLACK_LOOKUP,1^Black or African American,2^Not Black or African American
 NHOPI_LOOKUP,1^Native Hawaiian or Other Pacific Islander,2^NOT Native Hawaiian or Other Pacific Islander
 WHITE_LOOKUP,1^White,2^Not White
-HEIGHT_LOOKUP,99^Not Reported
 WEIGHT_LOOKUP,998^Pregnant (data will not be included when calculating average weight loss),999^Not recorded
 PA_LOOKUP,999^Not Recorded
 SESSIONID_LOOKUP,88^Ongoing maintenance or make up session,99^Core maintenance or make up session

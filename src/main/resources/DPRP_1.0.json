@@ -182,7 +182,6 @@
             "required": true,
             "rangeMin": 30,
             "rangeMax": 98,
-            "possibleAnswers": "HEIGHT_LOOKUP",
             "mustBeConsistent": true
         },
         {
