@@ -105,7 +105,6 @@
             "type": "Numeric",
             "required": true,
             "possibleAnswers": "ETHNIC_LOOKUP",
-            "relatedInfo": "If ethnicity is not reported by the participant, this variable will be coded as '9'.",
             "mustBeConsistent": true
         },
         {
