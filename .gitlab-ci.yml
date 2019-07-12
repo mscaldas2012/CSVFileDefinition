@@ -1,0 +1,30 @@
+image: docker:17.05
+variables:
+  DOCKER_DRIVER: overlay2
+  APP: csvFileDefinition
+  
+stages:
+  - build
+  - scan
+
+before_script:
+  - docker info
+
+
+sonarqube:  
+  image: maven:3.3.9-jdk-8  
+  stage: scan  
+  script:    
+  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url='http://sonarqube-dprp-dprp.services-dev.cdc.gov/' -Dbuild_version=${CI_PIPELINE_ID}   
+  allow_failure: true  
+  only:    
+    - master
+
+build:
+  stage: build
+  script:
+    - mvn clean package
+  only:
+    - master
+  image: maven:3.3.9-jdk-8  
+
