@@ -7,10 +7,6 @@ stages:
   - build
   - scan
 
-before_script:
-  - docker info
-
-
 sonarqube:  
   image: maven:3.3.9-jdk-8  
   stage: scan  
