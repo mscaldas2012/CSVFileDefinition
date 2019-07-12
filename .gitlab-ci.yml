@@ -11,7 +11,7 @@ sonarqube:
   image: maven:3.3.9-jdk-8  
   stage: scan  
   script:    
-  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url='http://sonarqube-dprp-dprp.services-dev.cdc.gov/' -Dbuild_version=${CI_PIPELINE_ID}   
+  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url='http://sonarqube-dprp-dprp.services-dev.cdc.gov' -Dbuild_version=${CI_PIPELINE_ID}   
   allow_failure: true  
   only:    
     - master
