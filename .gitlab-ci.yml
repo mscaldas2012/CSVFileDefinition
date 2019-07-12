@@ -19,7 +19,7 @@ sonarqube:
 build:
   stage: build
   script:
-    - mvn clean package
+    - mvn clean package -DskipTests
   only:
     - master
   image: maven:3.3.9-jdk-8  
