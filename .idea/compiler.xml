@@ -12,7 +12,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CSVFileDefinitions" target="1.8" />
+      <module name="CSVFileDefinitions" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
