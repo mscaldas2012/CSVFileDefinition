@@ -44,6 +44,14 @@ spring:
       uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/file_definitions
 
 
+---
+spring:
+  profiles: LOCAL
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27018/file_definition
+
 
 ---
 spring:
