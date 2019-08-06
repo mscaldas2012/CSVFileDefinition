@@ -5,7 +5,7 @@
 
 	<groupId>gov.cdc.nccdphp.esurveillance</groupId>
 	<artifactId>CSVFileDefinitions</artifactId>
-	<version>1.0.0-${env.CI_COMMIT_SHA}</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>CSV File Definition Management</name>
