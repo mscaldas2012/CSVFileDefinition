@@ -10,7 +10,9 @@
             "label": "Organization code",
             "type": "String",
             "required": true,
-            "rangeMax": 25
+            "rangeMax": 25,
+            "relatedInfo": "Provided by CDC.",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 2,
@@ -19,7 +21,9 @@
             "label": "Participant Id",
             "type": "String",
             "required": true,
-            "rangeMax": 25
+            "rangeMax": 25,
+            "relatedInfo": "Participant ID is uniquely assigned and maintained by the applicant organization, must not contain any IIF.",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 3,
@@ -28,7 +32,8 @@
             "label": "Enroll",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "ENROLL_LOOKUP"
+            "possibleAnswers": "ENROLL_LOOKUP",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 4,
@@ -37,7 +42,8 @@
             "label": "Payer",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "PAYER_LOOKUP"
+            "possibleAnswers": "PAYER_LOOKUP",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 5,
@@ -46,7 +52,8 @@
             "label": "State",
             "type": "String",
             "required": true,
-            "possibleAnswers": "US_STATES"
+            "possibleAnswers": "US_STATES",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 6,
@@ -56,7 +63,8 @@
             "type": "Numeric",
             "required": true,
             "possibleAnswers": "GLUCTEST_LOOKUP",
-            "relatedInfo": "Acceptable tests are ..."
+            "relatedInfo": "Acceptable tests include FG, OGTT, A1c, or claim code indicating diagnosis of prediabetes.",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 7,
@@ -65,7 +73,8 @@
             "label": "Gestational Diabetes Mellitus (GDM)",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "GDM_LOOKUP"
+            "possibleAnswers": "GDM_LOOKUP",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 8,
@@ -74,7 +83,8 @@
             "label": "Risk Test",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "RISKTEST_LOOKUP"
+            "possibleAnswers": "RISKTEST_LOOKUP",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 9,
@@ -84,7 +94,8 @@
             "type": "Numeric",
             "required": true,
             "rangeMin": 18,
-            "rangeMax": 125
+            "rangeMax": 125,
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 10,
@@ -93,7 +104,9 @@
             "label": "Ethinicity",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "ETHNIC_LOOKUP"
+            "possibleAnswers": "ETHNIC_LOOKUP",
+            "relatedInfo": "If ethnicity is not reported by the participant, this variable will be coded as '9'.",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 11,
@@ -102,7 +115,9 @@
             "label": "American Indian and Alaska Native",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "AIAN_LOOKUP"
+            "possibleAnswers": "AIAN_LOOKUP",
+            "relatedInfo":  "If race is not reported by the participant, all of the 5 race variables will be coded as '2'.",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 12,
@@ -111,7 +126,9 @@
             "label": "Asian",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "ASIA_LOOKUP"
+            "possibleAnswers": "ASIAN_LOOKUP",
+            "relatedInfo":  "If race is not reported by the participant, all of the 5 race variables will be coded as '2'.",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 13,
@@ -120,7 +137,9 @@
             "label": "Black or African American",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "BLACK_LOOKUP"
+            "possibleAnswers": "BLACK_LOOKUP",
+            "relatedInfo":  "If race is not reported by the participant, all of the 5 race variables will be coded as '2'.",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 14,
@@ -129,7 +148,9 @@
             "label": "Native Hawaiian or Other Pacific Islanders",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "NHOPI_LOOKUP"
+            "possibleAnswers": "NHOPI_LOOKUP",
+            "relatedInfo":  "If race is not reported by the participant, all of the 5 race variables will be coded as '2'.",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 15,
@@ -138,7 +159,9 @@
             "label": "White",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "WHITE_LOOKUP"
+            "possibleAnswers": "WHITE_LOOKUP",
+            "relatedInfo":  "If race is not reported by the participant, all of the 5 race variables will be coded as '2'.",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 16,
@@ -147,7 +170,8 @@
             "label": "Sec",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "SEX_LOOKUP"
+            "possibleAnswers": "SEX_LOOKUP",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 17,
@@ -158,7 +182,7 @@
             "required": true,
             "rangeMin": 30,
             "rangeMax": 98,
-            "possibleAnswers": "HEIGHT_LOOKUP"
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 18,
@@ -167,7 +191,8 @@
             "label": "Education",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "EDU_LOOKUP"
+            "possibleAnswers": "EDU_LOOKUP",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 19,
@@ -176,7 +201,8 @@
             "label": "DMODE",
             "type": "Numeric",
             "required": true,
-            "possibleAnswers": "DMODE_LOOKUP"
+            "possibleAnswers": "DMODE_LOOKUP",
+            "mustBeConsistent": true
         },
         {
             "fieldNumber": 20,
@@ -187,7 +213,8 @@
             "required": true,
             "rangeMin": 1,
             "rangeMax": 26,
-            "possibleAnswers": "SESSIONID_LOOKUP"
+            "possibleAnswers": "SESSIONID_LOOKUP",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 21,
@@ -196,7 +223,8 @@
             "label": "Session Type",
             "type": "String",
             "required": true,
-            "possibleAnswers": "SESSIONTYPE_LOOKUP"
+            "possibleAnswers": "SESSIONTYPE_LOOKUP",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 22,
@@ -205,7 +233,9 @@
             "label": "Date of Session",
             "type": "Date",
             "required": true,
-            "format": "M/d/yyyy"
+            "format": "M/d/yyyy",
+            "relatedInfo" :"Each data record represents attendance by one participant at one session; must include actual date of the session.",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 23,
@@ -216,7 +246,9 @@
             "required": true,
             "rangeMin": 70,
             "rangeMax": 997,
-            "possibleAnswers": "WEIGHT_LOOKUP"
+            "possibleAnswers": "WEIGHT_LOOKUP",
+            "relatedInfo": "At each session, participants are weighed; weight must be included on the record for that session and participant.",
+            "mustBeConsistent": false
         },
         {
             "fieldNumber": 24,
@@ -227,21 +259,10 @@
             "required": true,
             "rangeMin": 0,
             "rangeMax": 997,
-            "possibleAnswers": "PA_LOOKUP"
+            "possibleAnswers": "PA_LOOKUP",
+            "relatedInfo": " At some or all program sessions, participants are asked to report the number of minutes of brisk physical activity they completed in the preceding week.  If the number of minutes is greater than or equal to 997, 997 should be used.",
+            "mustBeConsistent": false
         }
     ]
 }
-//    "rowValidation": [
-//        {
-//            "scope": ["1a", "1c", "3a" ],
-//            "name": "Participants",
-//            "rules": [
-//                {
-//                    "rule": "$3f == $3f:PREVIOUS",
-//                    "message": "All Participant records must have the same Race",
-//                    "category": "WARNING"
-//                }
-//            ]
-//        }
-//    ]
-//}
+

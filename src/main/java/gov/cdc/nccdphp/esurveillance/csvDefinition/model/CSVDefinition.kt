@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document
  */
 @Document(collection="file_definition")
 @CompoundIndex(def = "{'code':1, 'version':-1}", name = "mmg_code_version_index", unique = true)
-class CSVDefinition(@Id val id: String, val code: String, val version: String): FileDefinition() {
+class CSVDefinition(@Id var id: String, val code: String, val version: String): FileDefinition() {
     var name: String? = null
 
 }

@@ -4,7 +4,6 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.ValueSetServices
 import org.apache.commons.logging.Log
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Flux
 import org.apache.commons.logging.LogFactory
 
 
@@ -29,12 +28,6 @@ class ValueSetController(private val valueSetServices: ValueSetServices) {
         return getValueSets()
     }
 
-    @GetMapping("/flux")
-    fun getAllFlux(): Flux<ValueSet> {
-        LOG.info("AUDIT: Retrieving ValueSets")
-        return valueSetServices.getValueSets()
-    }
-
     @GetMapping("/{valueSetName}")
     fun getValueSet(@PathVariable valueSetName: String): ValueSet? {
         LOG.info("AUDIT: Retrieving ValueSet $valueSetName")
@@ -51,7 +44,7 @@ class ValueSetController(private val valueSetServices: ValueSetServices) {
     private fun getValueSets(): MutableMap<String, ValueSet> {
         if (vsCache == null) {
             LOG.info("AUDIT: Initializing Cache")
-            vsCache = valueSetServices.getValueSetsAsMap().block()
+            vsCache = valueSetServices.getValueSetsAsMap()
         }
         return vsCache!!
     }

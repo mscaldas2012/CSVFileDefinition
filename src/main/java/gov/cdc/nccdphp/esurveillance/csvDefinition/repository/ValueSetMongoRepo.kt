@@ -1,7 +1,7 @@
 package gov.cdc.nccdphp.esurveillance.csvDefinition.repository
 
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 /**
@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Repository
-interface ValueSetMongoRepo: ReactiveMongoRepository<ValueSet, String>
+interface ValueSetMongoRepo: MongoRepository<ValueSet, String> {
+    fun findByName(name: String): ValueSet
+}

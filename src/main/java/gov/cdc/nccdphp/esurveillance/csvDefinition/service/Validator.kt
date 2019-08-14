@@ -41,7 +41,7 @@ class Validator {
     fun configure(config: String, version: String) {
         this.config = config
         this.version = version
-        this.valueSets = valueSetService.getValueSetsAsMap().block()
+        this.valueSets = valueSetService.getValueSetsAsMap()
 
         definition = mdeDefinition.getFileDefinition(config, version)
         val ruleParser = RuleParserMDE(definition as CSVDefinition)

@@ -53,11 +53,16 @@ class InfoController(val dataLoader: DataLoader) {
         return config
     }
 
-    @PostMapping( "/loadData")
-    fun loadData(@RequestBody content: String): String {
-        dataLoader.loadDataSets(content)
-
-        return "Value Sets Sucessfully Loaded"
+    @PostMapping( "/loadData/{config}")
+    fun loadData(@RequestBody content: String, @PathVariable config: String): String {
+        if ("VALUESET" == config)
+            dataLoader.loadDataSets(content)
+        else {
+            dataLoader.loadDefinition(content)
+        }
+        return "$config Successfully Loaded"
     }
+
+
 
 }

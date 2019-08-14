@@ -3,8 +3,7 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.service
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.repository.ValueSetMongoRepo
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+import java.util.stream.Collectors
 
 /**
  *
@@ -15,16 +14,12 @@ import reactor.core.publisher.Mono
 @Service
 class ValueSetServices(val repo: ValueSetMongoRepo) {
 
-    fun getValueSetsAsMap(): Mono<MutableMap<String, ValueSet>> {
-        val flux = repo.findAll()
-
-        return flux.collectMap(
-                        { item -> item.name },
-                        { item -> item})
-                //.block()
+    fun getValueSetsAsMap(): MutableMap<String, ValueSet> {
+        val list = repo.findAll()
+        return list.stream().collect(Collectors.toMap<ValueSet, String, ValueSet>({ item -> item.name }, { item -> item }))
     }
 
-    fun getValueSets(): Flux<ValueSet> {
+    fun getValueSets(): List<ValueSet> {
         return repo.findAll()
     }
 }

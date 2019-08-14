@@ -1,213 +1,192 @@
 openapi: "3.0.0"
 info:
   title: "CSVFileDefinition"
-  description: "This document describes the API for MDE (Minimun Data Elements) Definition"
+  description: "This document describes the API for MDE (Minimun Data Elements) Definition of CSV files."
   version: "1.0.0"
   contact:
     email: "surveillance@cdc.gov"
- 
+
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 servers:
-  - url: https://localhost/mdeDef/v1
+  - url: https://localhost/fileDefinition/v1
     description: Development server
-  - url: https://qa/mdeDef/v1
-    description: QA server
-  
+
+
 tags:
   - name: csvDef
     description: CSV Definition
 
 paths:
-   /mde/{mdeCode}:
+  /csvDefinition/{code}:
     parameters:
-      - in: path
-        name: mdeCode
-        required: true
-        schema:
-          type: String
+      - $ref: '#/components/parameters/code'
       - in: query
         name: version
         required: false
-        default: LATEST
         schema:
-          type: String
+          type: string
 
     get:
       tags:
-      - mdeDef
-      summary: Retrieves MDEDefinition based on code
+        - csvDef
+      summary: Retrieves File Definition based on code
 
       responses:
         '200':
-          $ref: '#/components/schemas/MDEDefinition'
+          $ref: '#/components/schemas/CSVDefinition'
 
-  /mde/parse:
+  /csvDefinition/parse:
     post:
-      parameters:
-        - in: body
-          required: true
-          schema:
-            type: string
-          description: The raw content of a file to be converted into MDE model.
+      tags:
+        - csvDef
+      requestBody:
+        required: true
+        description: The raw content of a csv file to be converted into a generic CSV model of Rows and Fields.
+        content:
+          text/plain:
+            schema:
+              type: string
+      summary: This method accepts a CSV document and translates into a generic JSON of Rows and Fields.
+      responses:
+        '200':
+          description: ok
 
-      summary: This method accepts the Data as JSON and translates it into content ready to be persisted
-
-  /mde/generate:
+  /csvDefinition/parseJSON:
     post:
-      parameters:
-        - in: body
-          required: true
-          schema:
-            $ref: '#/components/schemas/MDEFile'
-          description: The content to be translated into the File format to be persisted.
+      tags:
+        - csvDef
+      requestBody:
+        required: true
+        description:  The raw content of a file to be converted into a JSON Representatin of the CSV document, using column names as attributes
+        content:
+          text/plain:
+            schema:
+              type: string
+      summary: This method accepts a CSV document and translates into a JSON using CSV's column names.
+      responses:
+        '200':
+          description: ok
+
+
+  /csvDefinition/generate:
+    post:
+      tags:
+        - csvDef
+      requestBody:
+        required: true
+        description:  The content to be translated into the File format to be persisted.
+        content:
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/CSVFile'
+
+
       summary: This method accepts a MDEFile JSON object and formats it for data persistence following the MDE Rules.
       responses:
         '200':
-          schema:
-            type: string
           description: The file format representation of the content passed into the service.
 
 components:
   schemas:
-    MDEDefinition:
+    CSVDefinition:
       type: object
       properties:
         name:
           type: string
         code:
+          type: string
+        version:
           type: string
         fields:
           type: array
           items:
             $ref: '#/components/schemas/FieldDefinition'
-         
     FieldDefinition:
       type: object
       properties:
-        fieldNumber:
+        path:
           type: integer
-          example: 1
-        category:
-          type: string
-          enum: ['Administrative', 'Screening and Assessment', 'Health Behavior Support Options', 'Risk Reduction Counseling']
-          example: 'Administrative'
-        itemNumber:
-          type: string
-          example: '0a'
-        name:
-          type: string
-          example: 'MDEVer'
-        label:
-          type: string
-          example: 'MDE Version'
-        rounds:
-          type: integer
-          example: 1
-        position:
-          type: integer
+          description: The path to the field. In CSV, a path is simply the field Number, or position of the column in the file.
           example: 1
         type:
           type: string
-          enum: [Numeric, Character]
+          enum: [Numeric, String, Boolean, Date, DateTime, Time ]
           example: 'Character'
-        itemLength:
-          type: integer
-          example: 3
-        leadingZeros:
+        required:
           type: boolean
-          example: false
-       
+        name:
+          type: string
+          description: A succint name of the field - can be used for codes to reference fields by name. It's also used for generating the JSON representation of the document using field names.
         format:
           type: string
           description: can use for RegEx (zip codes, dates, etc)
           enum: ['N/A', 'MMCCYY', 'MMDDCCYY']
           example: 'N/A'
-        staticField:
-          type: boolean
-          example: false
+        rangeMin:
+          type: integer
+          description: For Numeric values, the minimum value this field accepts. For String, the minimum length the value must have.
+        rangeMax:
+          type: integer
+          description: Form numeric values, the maximum value this field accpets. For Strings, the maximum length the value can have.
+        category:
+          type: string
+          enum: ['CatA', 'CatB']
+          example:
+        label:
+          type: string
+          description: A user friendly name for the field - can be used for UIs
+        relatedInfo:
+          type: string
+          description: Used to provide extra information about the field.
         possibleAnswers:
           type: array
           items:
             $ref: '#/components/schemas/PossibleAnswers'
-         
-          
     PossibleAnswers:
       type: object
       properties:
         name:
           type: string
-        description:
-          type: string
         choices:
           type: array
           items:
             $ref: '#/components/schemas/AnswerChoice'
-   
     AnswerChoice:
       type: object
       properties:
         code:
           type: integer
-        rangeMin:
-          type: integer
-        rangeMax:
-          type: integer
         label:
           type: string
-         
-          
-    CollectionResults:
+
+    CSVFile:
       type: object
       properties:
-        metadata:
-          type: object
-          properties:
-            page_info:
-              type: object
-              properties:
-                page_number:
-                  type: integer
-                page_size:
-                  type: integer
-                total_number_of_pages:
-                  type: integer
-                max_page_size:
-                  type: integer
-        entries:
+        rows:
           type: array
           items:
-            $ref: "#/components/schemas/newMessage"
+            $ref: '#/components/schemas/CSVRow'
+    CSVRow:
+      type: object
+      properties:
+        rowNumber:
+          type: integer
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CSVField'
+    CSVField:
+      type: object
+      properties:
+        fieldNumber:
+          type: integer
+        value:
+          type: string
 
-      MDEFile:
-          type: object
-          properties:
-            name:
-              type: string
-            rows:
-              type: array
-              items:
-                $ref: '#/components/schemas/Row'
-        Row:
-          type: object
-          properties:
-            rowNumber:
-              type: integer
-            fields:
-              type: array
-              items:
-                $ref: '#/components/schemas/Field'
-        Field:
-          type: object
-          properties:
-            fieldNumber:
-              type: integer
-            values:
-              type: array
-              items:
-                type: string
- 
+
+
     Error:
       type: object
       properties:
@@ -231,7 +210,7 @@ components:
           type: string
           description: The Full URL that was called that generated this error.
           format: URL
-          example: 'http://localhost/bluebox/v1/messages'
+          example: 'http://localhost/fileDefinition/v1/messages'
         exception:
           type: string
           description: The exception, if any, associated with this error.
@@ -242,65 +221,44 @@ components:
         - description
         - status
         - path
+
   parameters:
-   
-    pageSize:
-      in: query
-      name: page_size
-      description: Number of records to be retrieved.
+    code:
+      in: path
+      name: code
+      required: true
       schema:
-        type: integer
-        default: 100
-    pageNumber:
-      in: query
-      name: page_number
-      description: The Page number to be retrieved. Fist page should be 1.
-      schema:
-        type: integer
-        default: 1
-   
-        
+        type: string
+
+
+
+
   responses:
-    MessageAccepted:
-      description: Acknoledgement of receiving a message
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MessageReceipt'
-           
-    MessageList:
-      description: A list of all comments matching the query
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CollectionResults'
-           
     NotFound:
       description: Entity not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-           
+
     IllegalInput:
-      description: Illegal input for operation. 
+      description: Illegal input for operation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-   
-            
+
+
     BadRequest:
       description: "Any error that is caused by the user - bad data sent, bad parameters, business rules violated, etc."
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
-           
+
     ServerError:
       description: "Any server side error that can occur."
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Error"
- 

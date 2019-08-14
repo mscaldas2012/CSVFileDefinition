@@ -17,6 +17,10 @@ open class FieldDefinition(@Field("fieldNumber") val path: Int, val type: String
     var label: String? = null
     var relatedInfo: String? = null
 
+    //This attribute indicates whether the value should be consistent for all rows
+    //identified by the given scope, with the identifier fields.
+    var mustBeConsistent: Boolean = false
+
 
 
 }
