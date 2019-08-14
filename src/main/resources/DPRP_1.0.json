@@ -237,7 +237,7 @@
 //            "name": "Participants",
 //            "rules": [
 //                {
-//                    "rule": "$3f[n+1] == $3f[n]",
+//                    "rule": "$3f == $3f:PREVIOUS",
 //                    "message": "All Participant records must have the same Race",
 //                    "category": "WARNING"
 //                }

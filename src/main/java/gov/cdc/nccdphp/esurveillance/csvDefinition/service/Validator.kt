@@ -10,6 +10,9 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValidationError
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.lang.IllegalArgumentException
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 
 /**
@@ -30,6 +33,8 @@ class Validator {
     @Autowired
     lateinit var valueSetService: ValueSetServices
 
+    val booleanKeywords = arrayOf("true", "false", "1", "0", "Y", "N")
+
     private lateinit var calculatedField: RuleEvaluator
 
 
@@ -43,7 +48,7 @@ class Validator {
         calculatedField = CalculatedFieldMDE(ruleParser)
     }
 
-    @Throws(Exception::class)
+    @Throws(InvalidConfigurationException::class)
     fun validate(file: CSVFile): ValidationReport {
         if (this.config == null) {
             throw Exception("Validator not properly configured!")
@@ -63,7 +68,7 @@ class Validator {
         if (field.value.isNotEmpty()) {
             validateType(row.rowNumber, field, fieldDef, report)
             validateValue(row.rowNumber, field, fieldDef, report)
-            if (fieldDef.format != null)
+            if (fieldDef.format != null && fieldDef.type != "Date")
                 validateFormat(row.rowNumber, field, fieldDef, report)
             //perform X-field Validation...
             fieldDef.fieldValidationRules?.forEach { r ->
@@ -79,7 +84,7 @@ class Validator {
     }
     private fun validateRequired(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
         if (fieldDef.required && field.value.isEmpty()) { //None of the values are provided...
-            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Field is required")
+            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Field ${fieldDef.name} is required")
             report.addError(error)
         }
     }
@@ -87,14 +92,11 @@ class Validator {
     private fun validateFormat(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
             if (!field.value.isBlank()) {
                 var matches = true
-                when (fieldDef.format) {
-                    "N/A" -> {
+                when (fieldDef.format?.trim()) {
+                    "N/A", ""-> {
                     }
-                    "MMDDCCYY" -> matches = field.value.matches("[0-1][0-9][0-3][0-9][0-9]{4}".toRegex())
-                    "MMCCYY" -> matches = field.value.matches("[0-1][0-9][0-9]{4}".toRegex())
-                    else -> if (fieldDef.format != null) {
-                                matches = field.value.matches(fieldDef.format!!.toRegex())
-                            }
+
+
                 }
                 if (!matches) { //see if there's no coded answer:
                     if (answerNotValid( field, fieldDef)) {
@@ -105,19 +107,35 @@ class Validator {
             }
     }
 
+    @Throws(InvalidConfigurationException::class)
     private fun validateType(rowNumber: Int, field: DataField,fieldDef: FieldDefinition, report: ValidationReport) {
         if (!field.value.isBlank()) {
             when (fieldDef.type.toUpperCase()) {
-                "INT" -> try {
-                    Integer.parseInt(field.value)
-                } catch (e: NumberFormatException) {
-                    val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid number provided for field",  field.value)
-                    report.addError(error)
-                }
-
+                "NUMBER" ->
+                    try {
+                         Integer.parseInt(field.value)
+                    } catch (e: NumberFormatException) {
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid number provided for field",  field.value)
+                        report.addError(error)
+                    }
                 "DATE" -> {
+                    try {
+                        val df = SimpleDateFormat(fieldDef.format)
+                        df.isLenient = false
+                        df.parse(field.value)
+                    } catch (e: ParseException) {
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid date provided for field",  field.value)
+                        report.addError(error)
+                    } catch (e: IllegalArgumentException) {
+                        throw InvalidConfigurationException("Invalid configuration - unable to use ${fieldDef.format} as a valid Date formatting. Error: ${e.message}")
+                    }
                 }
-                "CHARACTER" -> {
+                "BOOLEAN" -> {
+                    val match = booleanKeywords.filter { field.value.contains(it, ignoreCase = true) }
+                    if (match.isEmpty()) {
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid value provided for boolean field.",  field.value)
+                        report.addError(error)
+                    }
                 }
             }
         }
