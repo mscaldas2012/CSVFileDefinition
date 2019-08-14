@@ -22,16 +22,16 @@ import java.text.SimpleDateFormat
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Component
-class Validator {
+class Validator(val valueSetService: ValueSetServices, val mdeDefinition: CSVDefinitionService) {
     private var config: String? = null
     private var version: String? = null
     private var valueSets: Map<String, ValueSet>? = null
     private var definition: FileDefinition? = null
 
-    @Autowired
-    lateinit  var mdeDefinition: CSVDefinitionService
-    @Autowired
-    lateinit var valueSetService: ValueSetServices
+//    @Autowired
+//    lateinit  var mdeDefinition: CSVDefinitionService
+//    @Autowired
+//    lateinit var valueSetService: ValueSetServices
 
     val booleanKeywords = arrayOf("true", "false", "1", "0", "Y", "N")
 
@@ -60,7 +60,7 @@ class Validator {
 
     private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, report: ValidationReport) {
         fieldCollection.forEach {
-            validateField(row, row.fields.first { a -> a.fieldNumber == it.path }, it, report)}
+            validateField(row, row.fields.first { a -> a.fieldNumber == it.fieldNumber }, it, report)}
     }
 
     private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
@@ -73,7 +73,7 @@ class Validator {
             //perform X-field Validation...
             fieldDef.fieldValidationRules?.forEach { r ->
                 //r.rule.replace("\$this", "\$${fieldDef.path}")
-                val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.path}"), row)
+                val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row)
 
                 if (cfResult == null || !(cfResult as Boolean)) {
                     val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), r.message, field.value)
@@ -164,7 +164,7 @@ class Validator {
                     }
 
                 }
-        } else if (!(fieldDef.possibleAnswers.isNullOrBlank()) && (fieldDef.format.isNullOrBlank())) { //Has a Possible answer nad is not a date!
+        } else if (!(fieldDef.possibleAnswers.isNullOrBlank()) && (fieldDef.format.isNullOrBlank())) { //Has a Possible answer and is not a date!
             validatePossibleAnswers(rowNumber, field, fieldDef, report)
         }
     }
@@ -172,22 +172,19 @@ class Validator {
     private fun answerNotValid(field: DataField, fieldDef: FieldDefinition): Boolean {
         val possibleAnswers = this.valueSets!![fieldDef.possibleAnswers]
         try {
-            val match = possibleAnswers!!.choices.filter { a -> a.code == field.value}
-            return match.isEmpty()
+            val match = possibleAnswers?.choices?.filter { a -> a.code == field.value}
+            return match == null || match.isEmpty()
         } catch (npe: NullPointerException) {
             throw npe
         }
     }
 
     private fun validatePossibleAnswers(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
-            if (!(field.value.isBlank())) {
-                if (answerNotValid(field, fieldDef)) {
-                    val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Answer provided is not part of a valid possible answer.", field.value)
-                    report.addError(error)
-                }
+        if (!(field.value.isBlank())) {
+            if (answerNotValid(field, fieldDef)) {
+                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Answer provided is not part of a valid possible answer.", field.value)
+                report.addError(error)
             }
+        }
     }
-
-
 }
-
