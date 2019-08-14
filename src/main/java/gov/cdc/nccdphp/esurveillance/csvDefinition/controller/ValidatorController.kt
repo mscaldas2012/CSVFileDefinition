@@ -38,9 +38,10 @@ class ValidatorController {
 
     @PostMapping("\$validate/{config}")
     @Throws(InvalidDataException::class)
-    fun parseContent(@PathVariable config: String, @RequestParam version:String,  @RequestBody content: String): ValidationReport {
-        val file = transformer.parseContentAsCSVFile(content)
-        val validator = getValidator(config, version)
+    fun parseContent(@PathVariable config: String, @RequestParam version:String, @RequestParam includesHeader: Boolean?, @RequestBody content: String): ValidationReport {
+
+        val file = transformer.parseContentAsCSVFile(content, includesHeader?:true)
+        val validator = getValidator(config, version?:"1.0")
         return validator.validate(file)
     }
 

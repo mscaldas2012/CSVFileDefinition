@@ -3,14 +3,10 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.service
 import gov.cdc.nccdphp.esurveillance.bizRulesEngine.RuleEvaluator
 import gov.cdc.nccdphp.esurveillance.bizRulesEngine.model.DataField
 import gov.cdc.nccdphp.esurveillance.bizRulesEngine.model.DataRow
+import gov.cdc.nccdphp.esurveillance.csvDefinition.model.*
 import gov.cdc.nccdphp.esurveillance.validation.model.FieldDefinition
 import gov.cdc.nccdphp.esurveillance.validation.model.FileDefinition
-import gov.cdc.nccdphp.esurveillance.csvDefinition.model.*
-import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValidationError
-import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.lang.IllegalArgumentException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -170,11 +166,11 @@ class Validator(private val valueSetService: ValueSetServices,
                         }
                     "STRING" -> {
                         if (fieldDef.rangeMin!! > 0 && value.length < fieldDef.rangeMin!!) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value length must be greater than ${fieldDef.rangeMax}.", value)
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Length of value must be equal or greater than %.0f".format(fieldDef.rangeMax), value)
                             report.addError(error)
                         }
                         if (fieldDef.rangeMax!! > 0 && value.length > fieldDef.rangeMax!!) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value length must be less than ${fieldDef.rangeMax}.", value)
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Length of value must be equal or less than %.0f".format(fieldDef.rangeMax), value)
                             report.addError(error)
                         }
                     }
