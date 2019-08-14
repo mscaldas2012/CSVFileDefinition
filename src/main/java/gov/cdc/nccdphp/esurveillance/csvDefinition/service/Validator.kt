@@ -22,9 +22,11 @@ import java.text.SimpleDateFormat
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Component
-class Validator(val valueSetService: ValueSetServices, val mdeDefinition: CSVDefinitionService) {
+class Validator(private val valueSetService: ValueSetServices,
+                private val mdeDefinition: CSVDefinitionService) {
     private var config: String? = null
     private var version: String? = null
+
     private var valueSets: Map<String, ValueSet>? = null
     private var definition: FileDefinition? = null
 
@@ -33,7 +35,7 @@ class Validator(val valueSetService: ValueSetServices, val mdeDefinition: CSVDef
 //    @Autowired
 //    lateinit var valueSetService: ValueSetServices
 
-    val booleanKeywords = arrayOf("true", "false", "1", "0", "Y", "N")
+    val booleanKeywords = arrayOf("true", "false", "1", "0", "Y", "N", "Yes", "No")
 
     private lateinit var calculatedField: RuleEvaluator
 
@@ -41,6 +43,7 @@ class Validator(val valueSetService: ValueSetServices, val mdeDefinition: CSVDef
     fun configure(config: String, version: String) {
         this.config = config
         this.version = version
+
         this.valueSets = valueSetService.getValueSetsAsMap()
 
         definition = mdeDefinition.getFileDefinition(config, version)
@@ -144,26 +147,41 @@ class Validator(val valueSetService: ValueSetServices, val mdeDefinition: CSVDef
     private fun validateValue(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
         //Check if Range is defined - if it is and no issues, we're good, but if it fails need to validate if is a valid coded value
         if (fieldDef.rangeMin!! > 0 || fieldDef.rangeMax!! > 0) { //Range is defined...
-                val value = field.value
-                if (!value.isBlank()) {
-                    try {
-                        val intvalue = Integer.parseInt(value)
-                        if (fieldDef.rangeMin!! > 0 && intvalue < fieldDef.rangeMin!!) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value needs to be greater or equal than ${fieldDef.rangeMin}.", value)
-                            report.addError(error)
-                        }
-                        //Coudl be a coded value...
-                        if (fieldDef.rangeMax!! > 0 && intvalue > fieldDef.rangeMax!!) {
-                            if (fieldDef.possibleAnswers.isNullOrBlank() || answerNotValid(field, fieldDef)) {
-                                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value needs to be less or equal than ${fieldDef.rangeMax}.", value)
+            val value = field.value
+            if (!value.isBlank()) {
+                when (fieldDef.type.toUpperCase()) {
+                    "NUMBER" ->
+                        try {
+                            val intvalue = Integer.parseInt(value)
+                            if (fieldDef.rangeMin!! > 0 && intvalue < fieldDef.rangeMin!!) {
+                                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value needs to be greater or equal than ${fieldDef.rangeMin}.", value)
                                 report.addError(error)
                             }
-                        }
-                    } catch (e: NumberFormatException) {
-                        //This error is handled on validateType...
-                    }
+                            //Coudl be a coded value...
+                            if (fieldDef.rangeMax!! > 0 && intvalue > fieldDef.rangeMax!!) {
+                                if (fieldDef.possibleAnswers.isNullOrBlank() || answerNotValid(field, fieldDef)) {
+                                    val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value needs to be less or equal than ${fieldDef.rangeMax}.", value)
+                                    report.addError(error)
+                                }
 
+                            }
+                        } catch (e: NumberFormatException) {
+                            //This error is handled on validateType...
+                        }
+                    "STRING" -> {
+                        if (fieldDef.rangeMin!! > 0 && value.length < fieldDef.rangeMin!!) {
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value length must be greater than ${fieldDef.rangeMax}.", value)
+                            report.addError(error)
+                        }
+                        if (fieldDef.rangeMax!! > 0 && value.length > fieldDef.rangeMax!!) {
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value length must be less than ${fieldDef.rangeMax}.", value)
+                            report.addError(error)
+                        }
+                    }
+                    else -> {
+                    }
                 }
+            }
         } else if (!(fieldDef.possibleAnswers.isNullOrBlank()) && (fieldDef.format.isNullOrBlank())) { //Has a Possible answer and is not a date!
             validatePossibleAnswers(rowNumber, field, fieldDef, report)
         }
