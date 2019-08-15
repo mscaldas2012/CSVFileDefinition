@@ -34,13 +34,9 @@ class CSVDefinitionController {
         val log: Log = LogFactory.getLog(CSVDefinitionController::class.java)
     }
     @GetMapping("/{csvCode}")
-    fun getMDE(@PathVariable csvCode: String, @RequestParam version: Optional<String>): FileDefinition {
+    fun getMDE(@PathVariable csvCode: String, @RequestParam version: String?): FileDefinition {
         log.info("AUDIT - retrieving definition for $csvCode")
-
-        return if (version.isPresent)
-            service.getFileDefinition(csvCode, version.get())
-        else
-            service.getFileDefinition(csvCode, "LATEST")
+        return service.getFileDefinition(csvCode, version?:"LATEST")
     }
 
     @PostMapping("parse")
