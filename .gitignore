@@ -1,6 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
-!./m2/sca-maven-plugin/sca-maven-plugin-18.20.jar
+# Avoid ignoring the fortify plugin jar
+!./m2/**/*.jar
+
 target/
 pom.xml.tag
 pom.xml.releaseBackup
