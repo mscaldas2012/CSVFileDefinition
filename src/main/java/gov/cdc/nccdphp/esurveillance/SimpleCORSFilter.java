@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleCORSFilter implements Filter {
 
+    public static final String ORIGIN = "Origin";
+    public static final String ALLOW_CREDENTIALS = "true";
+    public static final String ALLOW_METHODS = "POST, GET, OPTIONS, DELETE";
+    public static final String MAX_AGE = "3600";
+    public static final String ALLOW_HEADERS = "Content-Type, Accept, X-Requested-With, remember-me";
     private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
     public SimpleCORSFilter() {
@@ -27,11 +32,11 @@ public class SimpleCORSFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader(ORIGIN));
+        response.setHeader("Access-Control-Allow-Credentials", ALLOW_CREDENTIALS);
+        response.setHeader("Access-Control-Allow-Methods", ALLOW_METHODS);
+        response.setHeader("Access-Control-Max-Age", MAX_AGE);
+        response.setHeader("Access-Control-Allow-Headers", ALLOW_HEADERS);
 
         chain.doFilter(req, res);
     }
