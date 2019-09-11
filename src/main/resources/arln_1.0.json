@@ -1,0 +1,1498 @@
+{
+  "name": "Antibacterial Resistance Lab Network for DHPQ",
+  "code": "DHPQ",
+  "version": "1.0",
+
+  "fields": [
+    {
+      "fieldNumber": 1,
+      "name": "Patient_ID",
+      "type": "Number",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 2,
+      "name": "Patient_ID_Assigner",
+      "type": "Number",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 3,
+      "name": "Patient_Sex",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 4,
+      "name": "Patient_age",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 5,
+      "name": "Patient_age_unit",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 6,
+      "name": "PHL",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 7,
+      "name": "Processing_Laboratory_ID",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 8,
+      "name": "Healthcare_facility_of_origin_ID",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 9,
+      "name": "Healthcare_facility_of_origin_name",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 10,
+      "name": "Healthcare_facility_of_origin_state",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 11,
+      "name": "Healthcare_facility_of_origin_zipcode",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 12,
+      "name": "Submitter_facility_ID",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 13,
+      "name": "Submitter_facility_ID_Assigner",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 14,
+      "name": "Submitter_facility_name",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 15,
+      "name": "Submitter_facility_state",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 16,
+      "name": "Submitter_facility_zipcode",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 17,
+      "name": "Specimen_type",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 18,
+      "name": "Specimen_type_free_text",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 19,
+      "name": "Specimen_collection_date",
+      "type": "Date",
+      "format": "yyyyMMdd",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 20,
+      "name": "Specimen_received_date",
+      "type": "Date",
+      "format": "yyyyMMdd",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 21,
+      "name": "Submitter_Specimen_ID",
+      "type": "Number",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 22,
+      "name": "ARLN_Specimen_ID",
+      "type": "Number",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 23,
+      "name": "Isolate_forwarded_to_RegLab",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 24,
+      "name": "Date_forwarded_to_RegLab",
+      "type": "Date",
+      "format": "yyyyMMdd",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 25,
+      "name": "Organism_tested",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 26,
+      "name": "Phenotypic_test_result",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 27,
+      "name": "Phenotypic_method_used",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 28,
+      "name": "Confirmed_carbapenem_resistant",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 29,
+      "name": "AST_method_used",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 30,
+      "name": "PCR_method_used",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 31,
+      "name": "IMP_gene",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 32,
+      "name": "KPC_gene",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 33,
+      "name": "mcr_1_gene",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 34,
+      "name": "mcr_2_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 35,
+      "name": "mcr_3_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 36,
+      "name": "mcr_4_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 37,
+      "name": "NDM_gene",
+      "type": "",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 38,
+      "name": "OXA_48_like_gene",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 39,
+      "name": "OXA_24_40_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 40,
+      "name": "OXA_58_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 41,
+      "name": "OXA_235_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 42,
+      "name": "OXA_23_gene",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 43,
+      "name": "VIM_gene",
+      "type": "String",
+      "format": "",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 44,
+      "name": "Other_gene_name",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 45,
+      "name": "Other_gene_result",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 46,
+      "name": "Aztreonam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 47,
+      "name": "Aztreonam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 48,
+      "name": "Aztreonam_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 49,
+      "name": "Cefepime_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 50,
+      "name": "Cefepime_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 51,
+      "name": "Cefepime_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 52,
+      "name": "Ceftazidime_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 53,
+      "name": "Ceftazidime_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 54,
+      "name": "Ceftazidime_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 55,
+      "name": "Ceftriaxone_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 56,
+      "name": "Ceftriaxone_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 57,
+      "name": "Ceftriaxone_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 58,
+      "name": "Colistin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 59,
+      "name": "Colistin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 60,
+      "name": "Doripenem_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 61,
+      "name": "Doripenem_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 62,
+      "name": "Doripenem_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 63,
+      "name": "Ertapenem_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 64,
+      "name": "Ertapenem_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 65,
+      "name": "Ertapenem_AST_zone_diameter",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 66,
+      "name": "Imipenem_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 67,
+      "name": "Imipenem_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 68,
+      "name": "Imipenem_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 69,
+      "name": "Meropenem_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 70,
+      "name": "Meropenem_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 71,
+      "name": "Meropenem_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 72,
+      "name": "Other_3rdGen_cephalosporin_name",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 73,
+      "name": "Other_3rdGen_cephalosporin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 74,
+      "name": "Other_3rdGen_cephalosporin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 75,
+      "name": "Other_3rdGen_cephalosporin_AST_zone_diameter",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 76,
+      "name": "RegLab_comment",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 77,
+      "name": "Piperacillin_Tazobactam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 78,
+      "name": "Piperacillin_Tazobactam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 79,
+      "name": "Piperacillin_Tazobactam_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 80,
+      "name": "Amikacin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 81,
+      "name": "Amikacin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 82,
+      "name": "Amikacin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 83,
+      "name": "Ciprofloxacin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 84,
+      "name": "Ciprofloxacin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 85,
+      "name": "Ciprofloxacin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 86,
+      "name": "Doxycycline_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 87,
+      "name": "Doxycycline_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 88,
+      "name": "Doxycycline_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 89,
+      "name": "Gentamicin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 90,
+      "name": "Gentamicin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 91,
+      "name": "Gentamicin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 92,
+      "name": "HP_Aztreonam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 93,
+      "name": "HP_Aztreonam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 94,
+      "name": "HP_Aztreonam_Avibactam_AST_MIC_sign",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 95,
+      "name": "HP_Aztreonam_Avibactam_AST_MIC",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 96,
+      "name": "HP_Ceftazidime_Avibactam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 97,
+      "name": "HP_Ceftazidime_Avibactam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 98,
+      "name": "HP_Ceftazidime_Aztreonam_Avibactam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 99,
+      "name": "HP_Ceftazidime_Aztreonam_Avibactam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 100,
+      "name": "Levofloxacin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 101,
+      "name": "Levofloxacin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 102,
+      "name": "Levofloxacin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 103,
+      "name": "Minocycline_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 104,
+      "name": "Minocycline_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 105,
+      "name": "Minocycline_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 106,
+      "name": "Polymixin_B_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 107,
+      "name": "Polymixin_B_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 108,
+      "name": "Polymixin_B_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 109,
+      "name": "Ticarcillin_Clavulanate_Constant2_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 110,
+      "name": "Ticarcillin_Clavulanate_Constant2_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 111,
+      "name": "Ticarcillin_Clavulanate_Constant2_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 112,
+      "name": "Tigecycline_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 113,
+      "name": "Tigecycline_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 114,
+      "name": "Tigecycline_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 115,
+      "name": "Tobramycin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 116,
+      "name": "Tobramycin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 117,
+      "name": "Tobramycin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 118,
+      "name": "Trimethoprim_Sulfamethoxazole_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 119,
+      "name": "Trimethoprim_Sulfamethoxazole_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 120,
+      "name": "Trimethoprim_Sulfamethoxazole_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 121,
+      "name": "Meropenem_Vaborbactam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 122,
+      "name": "Meropenem_Vaborbactam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 123,
+      "name": "Meropenem_Vaborbactam_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 124,
+      "name": "Ceftolozane_Tazobactam_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 125,
+      "name": "Ceftolozane_Tazobactam_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 126,
+      "name": "Ceftolozane_Tazobactam_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 127,
+      "name": "Ceftazidime_Avibactam_AST_ MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 128,
+      "name": "Ceftazidime_Avibactam_AST_MIC ",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 129,
+      "name": "Ceftazidime_Avibactam_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 130,
+      "name": "Moxifloxacin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 131,
+      "name": "Moxifloxacin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 132,
+      "name": "Moxifloxacin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 133,
+      "name": "Fosfomycin_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 134,
+      "name": "Fosfomycin_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 135,
+      "name": "Fosfomycin_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 136,
+      "name": "Organism_suspected",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 137,
+      "name": "Ampicillin_Sulbac_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 138,
+      "name": "Ampicillin_Sulbac_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 139,
+      "name": "Ampicillin_Sulbac_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 140,
+      "name": "Cefotaxime_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 141,
+      "name": "Cefotaxime_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 142,
+      "name": "Cefotaxime_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 143,
+      "name": "Date_result_released",
+      "type": "Date",
+      "format": "yyyyMMdd",
+      "required": true,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 144,
+      "name": "Cefotaxime_Clavulanate_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 145,
+      "name": "Cefotaxime_Clavulanate_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 146,
+      "name": "Cefotaxime_Clavulanate_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 147,
+      "name": "Ceftazidime_Clavulanate_AST_MIC_sign",
+      "type": "String",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 148,
+      "name": "Ceftazidime_Clavulanate_AST_MIC",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    },
+    {
+      "fieldNumber": 149,
+      "name": "Ceftazidime_Clavulanate_AST_zone_diameter",
+      "type": "Number",
+      "format": "",
+      "required": false,
+      "possibleAnswers": "",
+      "category": "",
+      "label": ""
+    }
+  ]
+}

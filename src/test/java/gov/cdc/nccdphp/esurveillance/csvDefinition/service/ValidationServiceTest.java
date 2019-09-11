@@ -8,9 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ActiveProfiles("LOCAL")
 public class ValidationServiceTest {
 
 
@@ -47,11 +50,16 @@ public class ValidationServiceTest {
 
 
     private CSVFile parse() throws InvalidDataException {
-        InputStream is =  getClass().getClassLoader().getResourceAsStream("testFile.mde");
-        String content = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
-        CSVFile file = transformer.parseContentAsCSVFile( content);
-        System.out.println("file = " + file);
-        return file;
+        try ( InputStream is =  getClass().getClassLoader().getResourceAsStream("testfile.csv")) {
+            String content = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
+            CSVFile file = transformer.parseContentAsCSVFile(content, true);
+            System.out.println("file = " + file);
+            return file;
+        } catch (IOException e) {
+            assert(false);
+            throw new InvalidDataException(e.getMessage());
+
+        }
     }
 
 }

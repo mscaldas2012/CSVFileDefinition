@@ -1,12 +1,26 @@
 image: docker:17.05
 variables:
   DOCKER_DRIVER: overlay2
-  APP: csvFileDefinition
+  APP: csv-file-definition
   
+
+
 stages:
   - build
   - scan
 
+
+build:
+  stage: build
+  script:
+    - 'docker build -t esurveillance.dprp/${APP} .'
+    - 'docker login -u $IMAGEHUB_USERNAME -p $IMAGEHUB_PASSWORD imagehub.cdc.gov:5989'
+    - 'docker tag esurveillance.dprp/${APP}:latest imagehub.cdc.gov:5989/esurveillance.dprp/${APP}:latest'
+    - 'docker push imagehub.cdc.gov:5989/esurveillance.dprp/${APP}:latest'
+  only:
+    - master
+  image: docker:stable
+  
 sonarqube:  
   image: maven:3.3.9-jdk-8  
   stage: scan  
@@ -15,12 +29,13 @@ sonarqube:
   allow_failure: true  
   only:    
     - master
-
-build:
-  stage: build
+  
+fortify:
+  image: ruby:2.3
+  stage: scan
   script:
-    - mvn clean package -DskipTests
+    - chmod 777 ./scanFortify.sh
+    - ./scanFortify.sh
+  allow_failure: true
   only:
     - master
-  image: maven:3.3.9-jdk-8  
-
