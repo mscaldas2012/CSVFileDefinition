@@ -10,7 +10,7 @@ FROM openjdk:8-jre-alpine
 
 VOLUME /tmp
 
-COPY --from=builder  /usr/src/app/target/CSVFileDefinitions-1.0.0s.jar ./fileDefinitions.jar
+COPY --from=builder  /usr/src/app/target/CSVFileDefinitions-1.0.0.jar ./fileDefinitions.jar
 
 RUN sh -c 'touch ./fileDefinitions.jar'
 ENTRYPOINT ["java","-Dspring.profiles.active=DOCKER","-Djava.security.egd=file:/dev/./urandom","-jar","./fileDefinitions.jar"]
