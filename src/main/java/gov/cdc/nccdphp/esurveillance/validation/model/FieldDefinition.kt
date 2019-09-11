@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import org.springframework.data.mongodb.core.mapping.Field
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-open class FieldDefinition(@Field("fieldNumber") val path: Int, val type: String, val required: Boolean) {
+open class FieldDefinition(val fieldNumber: Int, val type: String, val required: Boolean) {
     var name: String? = null
     //Validation
     var format: String? = null
@@ -20,7 +20,5 @@ open class FieldDefinition(@Field("fieldNumber") val path: Int, val type: String
     //This attribute indicates whether the value should be consistent for all rows
     //identified by the given scope, with the identifier fields.
     var mustBeConsistent: Boolean = false
-
-
 
 }

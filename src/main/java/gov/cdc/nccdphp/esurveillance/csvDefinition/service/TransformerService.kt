@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service
 @Service
 class TransformerService(private val definitionService: CSVDefinitionService) {
 
-    fun parseContentAsJson(defCode: String, version: String, content: String): String {
+    fun parseContentAsJson(defCode: String, version: String, content: String, includesHeader: Boolean = true): String {
         val def = definitionService.getFileDefinition(defCode, version)
         var result = ""
-        content.split("\n").drop(1).forEach { row ->
+        val skipheader = if (includesHeader) 1 else 0
+
+        content.split("\n").drop(skipheader).forEach { row ->
             var i = 0
             val json = Json {
                 row.split(",").forEach { field ->
@@ -37,11 +39,13 @@ class TransformerService(private val definitionService: CSVDefinitionService) {
         return result
     }
 
-    fun parseContentAsCSVFile(content: String): CSVFile {
+    fun parseContentAsCSVFile(content: String, includesHeader: Boolean = true): CSVFile {
         val result = CSVFile("file")
         var rowNumber = 1
         //val rows = mutableListOf<DataRow>()
-        content.split("\n").drop(1).forEach { row ->
+        val skipheader = if (includesHeader) 1 else 0
+
+        content.split("\n").drop(skipheader).forEach { row ->
 
             val fields = mutableListOf<DataField>()
             var fieldNumber = 1

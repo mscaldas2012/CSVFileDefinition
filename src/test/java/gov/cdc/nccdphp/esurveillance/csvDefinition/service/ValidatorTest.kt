@@ -9,6 +9,7 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import java.io.File
 import java.io.InputStream
@@ -20,6 +21,7 @@ import kotlin.system.measureTimeMillis
  */
 @RunWith(SpringRunner::class)
 @SpringBootTest
+@ActiveProfiles("LOCAL")
 class ValidatorTest {
     companion object {
         const val WW_MDE = "DPRP"

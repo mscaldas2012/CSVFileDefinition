@@ -34,13 +34,9 @@ class CSVDefinitionController {
         val log: Log = LogFactory.getLog(CSVDefinitionController::class.java)
     }
     @GetMapping("/{csvCode}")
-    fun getMDE(@PathVariable csvCode: String, @RequestParam version: Optional<String>): FileDefinition {
+    fun getMDE(@PathVariable csvCode: String, @RequestParam version: String?): FileDefinition {
         log.info("AUDIT - retrieving definition for $csvCode")
-
-        return if (version.isPresent)
-            service.getFileDefinition(csvCode, version.get())
-        else
-            service.getFileDefinition(csvCode, "LATEST")
+        return service.getFileDefinition(csvCode, version?:"LATEST")
     }
 
     @PostMapping("parse")
@@ -49,10 +45,10 @@ class CSVDefinitionController {
         return transformer.parseContentAsCSVFile(content)
     }
 
-    @PostMapping("parseJSON")
+    @PostMapping("parseJSON/{config}")
     @Throws(InvalidDataException::class)
-    fun parseContentJson(@RequestBody content: String): String {
-        return transformer.parseContentAsJson("DPRP", "1.0", content)
+    fun parseContentJson(@PathVariable config: String, @RequestParam version: String, @RequestBody content: String): String {
+        return transformer.parseContentAsJson(config, version, content)
     }
 
     @PostMapping("generate")

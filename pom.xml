@@ -174,11 +174,10 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.fortify.sca.plugins.maven</groupId>
-				<artifactId>sca-maven-plugin</artifactId>
-				<version>18.20</version>
-
-			</plugin>
+                <groupId>com.fortify.sca.plugins.maven</groupId>
+                <artifactId>sca-maven-plugin</artifactId>
+                <version>18.20</version>
+            </plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
