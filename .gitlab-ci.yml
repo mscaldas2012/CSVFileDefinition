@@ -2,7 +2,7 @@ image: docker:17.05
 variables:
   DOCKER_DRIVER: overlay2
   APP: csv-file-definition
-  
+
 
 
 stages:
@@ -20,16 +20,16 @@ build:
   only:
     - master
   image: docker:stable
-  
-sonarqube:  
-  image: maven:3.3.9-jdk-8  
-  stage: scan  
-  script:    
-  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url=${SONAR_URL} -Dbuild_version=${CI_PIPELINE_ID}   
-  allow_failure: true  
-  only:    
+
+sonarqube:
+  image: maven:3.3.9-jdk-8
+  stage: scan
+  script:
+  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url=${SONAR_URL} -Dbuild_version=${CI_PIPELINE_ID}
+  allow_failure: true
+  only:
     - master
-  
+
 fortify:
   image: ruby:2.3
   stage: scan

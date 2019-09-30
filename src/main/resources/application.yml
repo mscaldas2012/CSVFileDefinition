@@ -41,7 +41,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/file_definitions
+      uri: mongodb://${MONGO_HOST}:${MONGO_PORT}/file_definition
 
 
 ---
