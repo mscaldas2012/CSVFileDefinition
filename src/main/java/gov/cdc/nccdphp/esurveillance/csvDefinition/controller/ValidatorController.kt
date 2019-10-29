@@ -7,10 +7,14 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.service.TransformerService
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.Validator
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.ValueSetServices
 import gov.cdc.nccdphp.esurveillance.rest.exceptions.InvalidDataException
+import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES
+import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 /**
  *
@@ -55,5 +59,4 @@ class ValidatorController {
         }
         return validator
     }
-
 }

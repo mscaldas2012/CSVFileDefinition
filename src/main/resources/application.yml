@@ -17,11 +17,14 @@ spring:
     mongodb:
       uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/file_definition
       #uri: mongodb://158.111.44.51:27018/file_definition
+
 eip-service-config:
   pageInfo:
     maxPageSize: 100
     defaultPageSize: 20
 
+
+cdc_logging_url: http://webhook.site/9891623d-756b-404a-9400-8ee7069f02b2
 
 about:
   summary: This is a stub for starting Spring REST RENAME_ME. It includes basic Boot configuration, Docker, and a About service that reads this YAML file.
@@ -50,7 +53,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost:27018/file_definition
+      uri: mongodb://localhost:27017/file_definition
 
 
 ---
