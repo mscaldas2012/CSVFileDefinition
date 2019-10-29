@@ -1,7 +1,9 @@
 package gov.cdc.nccdphp.esurveillance.rest;
 
+import gov.cdc.nccdphp.esurveillance.rest.model.CDCLogEntry;
 import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES;
 import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,12 +13,15 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.NotFoundException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.InputMismatchException;
 
 /**
@@ -26,8 +31,10 @@ import java.util.InputMismatchException;
  */
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-	
-    @ExceptionHandler(value = { NotFoundException.class})
+	@Autowired
+	private CDCLoggerService cdcLoggerService;
+
+	@ExceptionHandler(value = { NotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(RuntimeException ex, HttpServletRequest request) {
         
     	logger.error("Error: "+ex.getMessage());
@@ -113,5 +120,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				ex.getClass().getName());
 		
 		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
+	}
+
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ErrorReceipt handleGenericError(HttpServletRequest req, Exception e) {
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String stackTrace = sw.toString();
+
+		CDCLogEntry logEntry = new CDCLogEntry("CSVFileDef_01", req.getRequestURL().toString(), "RestResponseEntityExceptionHandler", "handleGenericError", e.getMessage(), stackTrace, "CSVFileDefinition");
+		//Send logEntry
+
+		cdcLoggerService.sendError(logEntry);
+		return new ErrorReceipt(ERROR_CODES.INTERNAL_SERVER_ERROR, e.getMessage(), 500, req.getServletPath(),  e.getClass().getName());
 	}
 }

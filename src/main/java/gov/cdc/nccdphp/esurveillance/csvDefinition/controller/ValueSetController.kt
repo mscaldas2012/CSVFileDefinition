@@ -2,9 +2,13 @@ package gov.cdc.nccdphp.esurveillance.csvDefinition.controller
 
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValueSet
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.ValueSetServices
+import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES
+import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt
 import org.apache.commons.logging.Log
 import org.springframework.web.bind.annotation.*
 import org.apache.commons.logging.LogFactory
+import org.springframework.http.HttpStatus
+import javax.servlet.http.HttpServletRequest
 
 
 /**
@@ -48,4 +52,5 @@ class ValueSetController(private val valueSetServices: ValueSetServices) {
         }
         return vsCache!!
     }
+
 }

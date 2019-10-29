@@ -9,15 +9,15 @@ services:
     ports:
       - 10000:10000
     depends_on:
-      - mongodb_mde
+      - mongodb
     networks:
       - dprp
     env_file:
     - ./.env
 
-  mongodb_mde:
+  mongodb:
       image: mongo:latest
-      container_name: "mongodb_mde"
+      container_name: "mongodb"
       env_file:
         - ./.env
       environment:

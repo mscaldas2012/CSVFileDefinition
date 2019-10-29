@@ -21,7 +21,7 @@ class DataLoader(val valueSetRepo: ValueSetMongoRepo, val fileDefService: CSVDef
 
     private val log = LogFactory.getLog(DataLoader::class.java)
 
-    fun loadDataSets(content: String) {
+    fun  loadDataSets(content: String) {
         //InputStream file = getClass().getClassLoader().getResourceAsStream(filename);
         Scanner(content).use { scanner ->
             scanner.nextLine() //skip first line
