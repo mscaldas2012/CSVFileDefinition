@@ -67,21 +67,16 @@ class InfoController(val dataLoader: DataLoader) {
                 dberror = e.message!!
                 HEALTH_STATUS.DOWN;
             }
-        val health = HealthReceipt(HEALTH_STATUS.OK, dbstatus)
+        val overallStatus =
+                if (dbstatus == HEALTH_STATUS.OK)
+                    HEALTH_STATUS.OK
+                else
+                    HEALTH_STATUS.UNHEALTHY
+
+        val health = HealthReceipt(overallStatus, dbstatus)
         health.dbErrorMessage = dberror
         return health
     }
-
-    private fun pingDB(): Boolean {
-        return try {
-            valueSetRepo!!.findByName("YN_LOOKUP")
-            true
-        } catch ( e: Exception ) {
-            e.printStackTrace()
-            false;
-        }
-    }
-
     @JsonView(View.Summary::class)
     @GetMapping("/config", produces = ["application/json"])
     fun getConfig(): EipServiceConfig? {

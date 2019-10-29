@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 
 
 enum class HEALTH_STATUS {
-    OK, DOWN
+    OK, DOWN, UNHEALTHY
 }
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
