@@ -20,14 +20,15 @@ class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) 
     companion object {
         val logger: Log = LogFactory.getLog(CDCLoggerService::class.java)
     }
-    lateinit var rt: RestTemplate
+    val rt: RestTemplate = RestTemplate()
     //CDC uses self signed certificate... need to disable SSL verification...
-    init {
-        val socketFactory = SSLConnectionSocketFactory(SSLContextBuilder().loadTrustMaterial(null, TrustSelfSignedStrategy()).build())
-        val httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build()
-        rt = RestTemplate()
-        (rt.getRequestFactory() as HttpComponentsClientHttpRequestFactory).httpClient = httpClient
-    }
+//    init {
+//        val socketFactory = SSLConnectionSocketFactory(SSLContextBuilder().loadTrustMaterial(null, TrustSelfSignedStrategy()).build())
+//        val httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build()
+//        rt = RestTemplate()
+//        (rt.getRequestFactory() as HttpComponentsClientHttpRequestFactory).httpClient = httpClient
+//
+//    }
 
     fun sendError(logEntry: CDCLogEntry) {
         try {
