@@ -3,13 +3,12 @@ package gov.cdc.nccdphp.esurveillance.rest
 import gov.cdc.nccdphp.esurveillance.rest.model.CDCLogEntry
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory
+import org.apache.http.impl.client.HttpClients
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
-import org.apache.http.impl.client.HttpClients
-import org.apache.http.impl.client.CloseableHttpClient
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import java.security.cert.X509Certificate
 
 
@@ -35,11 +34,8 @@ class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) 
                 .build()
 
         val requestFactory = HttpComponentsClientHttpRequestFactory()
-
         requestFactory.httpClient = httpClient
-
-        val restTemplate = RestTemplate(requestFactory)
-        rt = RestTemplate()
+        rt = RestTemplate(requestFactory)
 
     }
 
