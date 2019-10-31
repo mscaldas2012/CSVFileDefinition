@@ -48,15 +48,11 @@ class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) 
 
     fun sendError(logEntry: CDCLogEntry) {
         try {
-//            val request = HttpEntity(logEntry)
-//            val objectNodeResponseEntity = rt.exchange(cdcLoggingURL, HttpMethod.POST, request, CDCLogEntry::class.java)
-//            if (objectNodeResponseEntity.getStatusCode() != HttpStatus.OK) {
-//                logger.error("Problem calling CDC Logging HTTP Status: " + objectNodeResponseEntity.getStatusCode())
-//                logger.error("Body:\n" + objectNodeResponseEntity.)
-//            }
-
-
-            rt.postForEntity(cdcLoggingURL, logEntry, CDCLogEntry::class.java)
+            val response = rt.postForEntity(cdcLoggingURL, logEntry, String::class.java)
+            logger.info("CDC-LOG::response: ${response.statusCode}")
+            if (response.statusCode != HttpStatus.OK) {
+                logger.error("Unable to log error to CDC's Logging. Error: ${response.body}")
+            }
         } catch (e: Exception) {
             logger.error("Unable to Log error to CDC's Logging. Error: " + e.message)
         }
