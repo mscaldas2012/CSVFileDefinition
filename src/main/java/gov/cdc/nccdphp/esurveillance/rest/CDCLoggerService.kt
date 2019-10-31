@@ -3,15 +3,14 @@ package gov.cdc.nccdphp.esurveillance.rest
 import gov.cdc.nccdphp.esurveillance.rest.model.CDCLogEntry
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
-
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.apache.http.impl.client.HttpClients
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy
+import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
-import org.apache.http.ssl.SSLContextBuilder
+import java.security.cert.X509Certificate
 
 
 @Service
@@ -20,15 +19,29 @@ class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) 
     companion object {
         val logger: Log = LogFactory.getLog(CDCLoggerService::class.java)
     }
-    val rt: RestTemplate = RestTemplate()
+    val rt: RestTemplate //= RestTemplate()
     //CDC uses self signed certificate... need to disable SSL verification...
-//    init {
-//        val socketFactory = SSLConnectionSocketFactory(SSLContextBuilder().loadTrustMaterial(null, TrustSelfSignedStrategy()).build())
-//        val httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build()
-//        rt = RestTemplate()
-//        (rt.getRequestFactory() as HttpComponentsClientHttpRequestFactory).httpClient = httpClient
-//
-//    }
+    init {
+        val acceptingTrustStrategy = { chain: Array<X509Certificate>, authType: String -> true }
+
+        val sslContext = org.apache.http.ssl.SSLContexts.custom()
+                .loadTrustMaterial(null, acceptingTrustStrategy)
+                .build()
+
+        val csf = SSLConnectionSocketFactory(sslContext)
+
+        val httpClient = HttpClients.custom()
+                .setSSLSocketFactory(csf)
+                .build()
+
+        val requestFactory = HttpComponentsClientHttpRequestFactory()
+
+        requestFactory.httpClient = httpClient
+
+        val restTemplate = RestTemplate(requestFactory)
+        rt = RestTemplate()
+
+    }
 
     fun sendError(logEntry: CDCLogEntry) {
         try {
