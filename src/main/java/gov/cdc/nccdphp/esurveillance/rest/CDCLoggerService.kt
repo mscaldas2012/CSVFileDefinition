@@ -10,6 +10,13 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import java.security.cert.X509Certificate
+import com.mongodb.QueryOperators.SEARCH
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+
+
 
 
 @Service
@@ -41,6 +48,14 @@ class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) 
 
     fun sendError(logEntry: CDCLogEntry) {
         try {
+//            val request = HttpEntity(logEntry)
+//            val objectNodeResponseEntity = rt.exchange(cdcLoggingURL, HttpMethod.POST, request, CDCLogEntry::class.java)
+//            if (objectNodeResponseEntity.getStatusCode() != HttpStatus.OK) {
+//                logger.error("Problem calling CDC Logging HTTP Status: " + objectNodeResponseEntity.getStatusCode())
+//                logger.error("Body:\n" + objectNodeResponseEntity.)
+//            }
+
+
             rt.postForEntity(cdcLoggingURL, logEntry, CDCLogEntry::class.java)
         } catch (e: Exception) {
             logger.error("Unable to Log error to CDC's Logging. Error: " + e.message)
