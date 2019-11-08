@@ -4,6 +4,7 @@ import gov.cdc.nccdphp.esurveillance.rest.model.CDCLogEntry;
 import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES;
 import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,10 @@ import java.util.InputMismatchException;
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	@Autowired
 	private CDCLoggerService cdcLoggerService;
+
+	@Value("${cdc-logging.env}")
+	private String environment;
+
 
 	@ExceptionHandler(value = { NotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(RuntimeException ex, HttpServletRequest request) {
@@ -129,7 +134,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		e.printStackTrace(new PrintWriter(sw));
 		String stackTrace = sw.toString();
 
-		CDCLogEntry logEntry = new CDCLogEntry("CSVFileDef_01", req.getRequestURL().toString(), "RestResponseEntityExceptionHandler", "handleGenericError", e.getMessage(), stackTrace, "CSVFileDefinition");
+		CDCLogEntry logEntry = new CDCLogEntry(environment, "CSVFileDef_01", req.getRequestURL().toString(), "handleGenericError", e.getMessage(), stackTrace);
 		//Send logEntry
 
 		cdcLoggerService.sendError(logEntry);
