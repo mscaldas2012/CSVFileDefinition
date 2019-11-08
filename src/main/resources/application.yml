@@ -24,7 +24,10 @@ eip-service-config:
     defaultPageSize: 20
 
 
-cdc_logging_url: http://webhook.site/9891623d-756b-404a-9400-8ee7069f02b2
+cdc_logging:
+  url: http://webhook.site/9891623d-756b-404a-9400-8ee7069f02b2
+  enabled: true
+  env: LOCAL
 
 about:
   summary: This is a stub for starting Spring REST RENAME_ME. It includes basic Boot configuration, Docker, and a About service that reads this YAML file.

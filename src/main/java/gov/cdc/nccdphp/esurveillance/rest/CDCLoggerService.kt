@@ -6,21 +6,15 @@ import org.apache.commons.logging.LogFactory
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import org.apache.http.impl.client.HttpClients
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import java.security.cert.X509Certificate
-import com.mongodb.QueryOperators.SEARCH
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-
-
 
 
 @Service
-class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) {
+class CDCLoggerService(@Value("\${cdc_logging.url}") val cdcLoggingURL: String) {
 
     companion object {
         val logger: Log = LogFactory.getLog(CDCLoggerService::class.java)
@@ -51,10 +45,10 @@ class CDCLoggerService(@Value("\${cdc_logging_url}") val cdcLoggingURL: String) 
             val response = rt.postForEntity(cdcLoggingURL, logEntry, String::class.java)
             logger.info("CDC-LOG::response: ${response.statusCode}")
             if (response.statusCode != HttpStatus.OK) {
-                logger.error("Unable to log error to CDC's Logging. Error: ${response.body}")
+                logger.error("Unable to log error to CDC's Logging. Error: ${response.statusCode} -  ${response.body}")
             }
         } catch (e: Exception) {
-            logger.error("Unable to Log error to CDC's Logging. Error: " + e.message)
+            logger.error("Unable to Log error to CDC's Logging. Exception: " + e.message)
         }
     }
 
