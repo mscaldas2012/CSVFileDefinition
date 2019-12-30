@@ -11,6 +11,6 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.model.CSVDefinition
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 @Repository
-interface CSVDefinitionMongoRepo: MongoRepository<CSVDefinition, String> {
-    fun findByCodeAndVersion(code: String, version: String): CSVDefinition
+interface CSVDefinitionMongoRepo: MongoRepository<CSVDefinition, String>, CSVFileDefinitionRepo {
+    override fun findByCodeAndVersion(code: String, version: String): CSVDefinition
 }

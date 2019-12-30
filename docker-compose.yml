@@ -30,6 +30,17 @@ services:
       command: mongod --port ${MONGO_MDE_PORT} --smallfiles --logpath=/dev/null # --quiet
       networks:
         - dprp
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    command: server ~/Downloads/minio
+    networks:
+      - dprp
+
 
 networks:
   dprp:

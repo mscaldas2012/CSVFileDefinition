@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package logproto;
+
+// GO
+option go_package="logproto";
+
+// JAVA options
+option java_package="gov.cdc.nccdphp.esurveillance.LogProto";
+option java_outer_classname="LogProto";
+
+// Proto message
+message LoggerMsg {
+    string payload = 1; // log is a string
+}// .LogMsg
+
+message Empty {
+}// .Empty
+
+service LoggerService{
+    rpc SendOneLog(stream LoggerMsg) returns (Empty){};
+} // .ValidateService
