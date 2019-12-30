@@ -9,9 +9,10 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.repository.ValueSetMongoRepo
 import gov.cdc.nccdphp.esurveillance.data.DataLoader
 import gov.cdc.nccdphp.esurveillance.rest.model.HEALTH_STATUS
 import gov.cdc.nccdphp.esurveillance.rest.model.HealthReceipt
-import org.apache.catalina.valves.HealthCheckValve
+import gov.cdc.nccdphp.esurveillance.rest.security.S2SAuth
+import org.apache.commons.logging.Log
+import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -25,8 +26,10 @@ import java.time.format.DateTimeFormatter
 
 @RestController
 @RequestMapping("/info/")
-class InfoController(val dataLoader: DataLoader) {
-
+class InfoController(val dataLoader: DataLoader, val s2sAuth: S2SAuth) {
+    companion object {
+        val log: Log = LogFactory.getLog(InfoController::class.java)
+    }
     @Autowired
     private val about: About? = null
 
@@ -84,7 +87,9 @@ class InfoController(val dataLoader: DataLoader) {
     }
 
     @PostMapping( "/loadData/{config}")
-    fun loadData(@RequestBody content: String, @PathVariable config: String): String {
+    fun loadData(@RequestHeader("s2s-token", required = false) token:String? , @RequestBody content: String, @PathVariable config: String): String {
+        log.info("AUDIT::Loading new data for ${config}")
+        s2sAuth.checkS2SCredentials(token) //Throws ServiceNotAuthorizedException if fails.
         if ("VALUESET" == config)
             dataLoader.loadDataSets(content)
         else {

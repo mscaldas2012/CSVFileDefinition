@@ -12,20 +12,26 @@ spring:
   profiles:
     active: ${SPRING.PROFILE}
 
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    platform: h2
-    username: sa
-    password:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/file_definition
 
-  jpa:
-    properties:
-      hibernate:
-        show_sql: false
-        format_sql: true
-        ddl-auto: create-drop
-        dialect: org.hibernate.dialect.H2Dialect
+eip-service-config:
+  pageInfo:
+    maxPageSize: 100
+    defaultPageSize: 20
+
+s2s-auth-config:
+  token: unittest-token
+
+storage: mongo
+#storage: minio
+
+minio:
+  url: http://localhost:9000
+  accesskey: minio
+  secret: minio123
+  default-bucket: dprp-file-definitions
 
 configuration:
   pageInfo:

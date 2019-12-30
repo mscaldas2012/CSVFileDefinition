@@ -3,6 +3,7 @@ package gov.cdc.nccdphp.esurveillance.rest;
 import gov.cdc.nccdphp.esurveillance.rest.model.CDCLogEntry;
 import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES;
 import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt;
+import gov.cdc.nccdphp.esurveillance.rest.security.ServiceNotAuthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
@@ -139,5 +140,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 		cdcLoggerService.sendError(logEntry);
 		return new ErrorReceipt(ERROR_CODES.INTERNAL_SERVER_ERROR, e.getMessage(), 500, req.getServletPath(),  e.getClass().getName());
+	}
+
+	@ExceptionHandler(ServiceNotAuthorizedException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public ResponseEntity<ErrorReceipt> handleUnauthorizedError(HttpServletRequest req, ServiceNotAuthorizedException e) {
+//		CDCLogEntry logEntry = new CDCLogEntry(environment, "CSVFileDef_01", req.getRequestURL().toString(), "handleUnauthorizedError", e.getMessage(), null);
+//		cdcLoggerService.sendError(logEntry);
+		ErrorReceipt error =  new ErrorReceipt(ERROR_CODES.UNAUTHORIZED, e.getMessage(), 401, req.getServletPath(),  e.getClass().getName());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+
 	}
 }
