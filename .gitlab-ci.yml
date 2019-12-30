@@ -2,7 +2,7 @@ image: docker:17.05
 variables:
   DOCKER_DRIVER: overlay2
   APP: csv-file-definition
-  
+
 
 
 stages:
@@ -14,22 +14,22 @@ build:
   stage: build
   script:
     - 'docker build -t esurveillance.dprp/${APP} .'
-    - 'docker login -u $IMAGEHUB_USERNAME -p $IMAGEHUB_PASSWORD imagehub.cdc.gov:5989'
-    - 'docker tag esurveillance.dprp/${APP}:latest imagehub.cdc.gov:5989/esurveillance.dprp/${APP}:latest'
-    - 'docker push imagehub.cdc.gov:5989/esurveillance.dprp/${APP}:latest'
+    - 'docker login -u $IMAGEHUB_USERNAME -p $IMAGEHUB_PASSWORD imagehub.cdc.gov:6989'
+    - 'docker tag esurveillance.dprp/${APP}:latest imagehub.cdc.gov:6989/esurveillance.dprp/${APP}:latest'
+    - 'docker push imagehub.cdc.gov:6989/esurveillance.dprp/${APP}:latest'
   only:
     - master
   image: docker:stable
-  
-sonarqube:  
-  image: maven:3.3.9-jdk-8  
-  stage: scan  
-  script:    
-  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url=${SONAR_URL} -Dbuild_version=${CI_PIPELINE_ID}   
-  allow_failure: true  
-  only:    
+
+sonarqube:
+  image: maven:3.3.9-jdk-8
+  stage: scan
+  script:
+  - mvn --batch-mode verify sonar:sonar -DskipTests -Dsonar.host.url=${SONAR_URL} -Dbuild_version=${CI_PIPELINE_ID}
+  allow_failure: true
+  only:
     - master
-  
+
 fortify:
   image: ruby:2.3
   stage: scan
