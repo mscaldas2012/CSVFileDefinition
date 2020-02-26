@@ -168,6 +168,12 @@
 			<artifactId>protobuf-java</artifactId>
 			<version>3.10.0-rc-1</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.owasp</groupId>-->
+<!--			<artifactId>dependency-check-maven</artifactId>-->
+<!--			<version>5.3.0</version>-->
+<!--			<type>maven-plugin</type>-->
+<!--		</dependency>-->
 	</dependencies>
 
 
@@ -192,6 +198,20 @@
 			</extension>
 		</extensions>
 		<plugins>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>5.0.0</version>
+				<configuration>
+					<format>XML</format>
+<!--					<outputDirectory>${dependency.check.report.dir}</outputDirectory>-->
+					<cveUrl12Modified>https://nvd.nist.gov/feeds/xml/cve/1.2/nvdcve-modified.xml.gz</cveUrl12Modified>
+					<cveUrl20Modified>https://nvd.nist.gov/feeds/xml/cve/2.0/nvdcve-2.0-modified.xml.gz</cveUrl20Modified>
+					<cveUrl12Base>https://nvd.nist.gov/feeds/xml/cve/1.2/nvdcve-%d.xml.gz</cveUrl12Base>
+					<cveUrl20Base>https://nvd.nist.gov/feeds/xml/cve/2.0/nvdcve-2.0-%d.xml.gz</cveUrl20Base>
+
+				</configuration>
+			</plugin>
 			<plugin>
                 <groupId>com.fortify.sca.plugins.maven</groupId>
                 <artifactId>sca-maven-plugin</artifactId>
