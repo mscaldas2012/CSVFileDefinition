@@ -9,4 +9,8 @@ package gov.cdc.nccdphp.esurveillance.validation.model
 open class FileDefinition {
     lateinit var fields:Array<FieldDefinition>
     var rowValidation: List<RowValidationDefinition>? = null
+
+    fun getFieldByName(name: String): FieldDefinition {
+        return fields.filter {name.equals(it.name)}.first()
+    }
 }

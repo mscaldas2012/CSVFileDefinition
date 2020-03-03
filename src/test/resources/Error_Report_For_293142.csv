@@ -1,0 +1,4 @@
+Row,OrgCode,ParticipantCode (PARTICIP),SessionDate (DATE),SessionType (SESSTYPE),Field Name,Issue #,Error Type,Description,Value
+N/A,293142,17A-01X,N/A,N/A,STATE,3_2,QUALITY_CHECK,STATE value is no longer the same for each of the participant's records.  Please recheck the reported values.  May include participant's records from a prior submission.,Review session data
+N/A,293142,17A-01X,N/A,N/A,AGE,7_2,ERROR,One or more of the AGE values reported on this file for this participant has increased by more than 1. Please recheck the reported values.  May include participant's records from a prior submission.,Review session data
+N/A,293142,17A-03X,N/A,N/A,STATE,3_2,QUALITY_CHECK,STATE value is no longer the same for each of the participant's records.  Please recheck the reported values.  May include participant's records from a prior submission.,Review session data

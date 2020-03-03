@@ -1,0 +1,96 @@
+{
+  "name": "DPRP Error Report",
+  "code": "DPRPErrors",
+  "version": "1.0",
+  "fields": [
+    {
+      "fieldNumber": 1,
+      "name": "ROW_NUMBER",
+      "category": "ERROR_SCOPE",
+      "label": "Row Number",
+      "type": "Numeric",
+      "required": true,
+      "rangeMin": 1
+    },
+    {
+      "fieldNumber": 2,
+      "name": "ORGCODE",
+      "category": "Session Info",
+      "label": "Organization Code",
+      "type": "String",
+      "required": true,
+      "relatedInfo": ""
+    },
+    {
+      "fieldNumber": 3,
+      "name": "PATICIPID",
+      "category": "Session Info",
+      "label": "Participant ID",
+      "type": "String",
+      "required": true,
+      "relatedInfo": ""
+    },
+    {
+      "fieldNumber": 4,
+      "name": "SESSDATE",
+      "category": "Session Info",
+      "label": "Session Date",
+      "type": "Date",
+      "format": "M/d/yyyy",
+      "required": true,
+      "relatedInfo": ""
+    },
+    {
+      "fieldNumber": 5,
+      "name": "SESSTYPE",
+      "category": "Session Info",
+      "label": "Session Type",
+      "type": "String",
+      "required": true,
+      "possibleAnswers": "SESSIONTYPE_LOOKUP"
+    },
+    {
+      "fieldNumber": 6,
+      "name": "FIELD_NAME",
+      "category": "ERROR_SCOPE",
+      "label": "Field Name",
+      "type": "String",
+      "required": false,
+      "possibleAnswers": "FIELD_NAME_LOOKUP"
+    },
+    {
+      "fieldNumber": 7,
+      "name": "ISSUE_NBR",
+      "category": "ERROR_SCOPE",
+      "label": "Issue Number",
+      "type": "String",
+      "required": true,
+      "possibleAnswers": "ISSUE_NUMBER_LOOKUP"
+    },
+    {
+      "fieldNumber": 8,
+      "name": "ERROR_TYPE",
+      "category": "ERROR_SCOPE",
+      "label": "Error Type",
+      "type": "String",
+      "required": true,
+      "possibleAnswers": "ERROR_TYPE_LOOKUP"
+    },
+    {
+      "fieldNumber": 9,
+      "name": "DESCRIPTION",
+      "category": "ERROR_SCOPE",
+      "label": "Description",
+      "type": "String",
+      "required": false
+    },
+    {
+      "fieldNumber": 10,
+      "name": "VALUE",
+      "category": "ERROR_SCOPE",
+      "label": "Value",
+      "type": "String",
+      "required": false
+    }
+  ]
+  }
