@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 @ActiveProfiles("LOCAL")
 public class ValidationServiceTest {
 
-
-
     public static final String WW_MDE = "DPRP";
     public static final String VERSION = "1.0";
 
@@ -50,7 +48,7 @@ public class ValidationServiceTest {
 
 
     private CSVFile parse() throws InvalidDataException {
-        try ( InputStream is =  getClass().getClassLoader().getResourceAsStream("testfile.csv")) {
+        try ( InputStream is =  getClass().getResourceAsStream("/testfile.csv")) {
             String content = new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n"));
             CSVFile file = transformer.parseContentAsCSVFile(content, true);
             System.out.println("file = " + file);

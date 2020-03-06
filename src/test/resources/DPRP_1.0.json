@@ -22,6 +22,7 @@
             "type": "String",
             "required": true,
             "rangeMax": 25,
+            "format": "^[a-zA-Z0-9-]+$",
             "relatedInfo": "Participant ID is uniquely assigned and maintained by the applicant organization, must not contain any IIF.",
             "mustBeConsistent": false
         },
@@ -64,7 +65,14 @@
             "required": true,
             "possibleAnswers": "GLUCTEST_LOOKUP",
             "relatedInfo": "Acceptable tests include FG, OGTT, A1c, or claim code indicating diagnosis of prediabetes.",
-            "mustBeConsistent": false
+            "mustBeConsistent": false,
+            "fieldValidationRules": [
+                {
+                    "rule": "$$6 != 2 OR $$7 != 2 OR $$8 != 2",
+                    "category": "WARNING",
+                    "message": "At least one of the prediabetes determinations should be positive for the participant. Please recheck the reported values."
+                }
+            ]
         },
         {
             "fieldNumber": 7,
@@ -74,7 +82,15 @@
             "type": "Numeric",
             "required": true,
             "possibleAnswers": "GDM_LOOKUP",
-            "mustBeConsistent": false
+            "mustBeConsistent": false,
+            "fieldValidationRules": [
+                {
+                    "rule": "$this == 1 => $$16 != 1",
+                    "message": "You have entered that a male participant had a clinical diagnosis of gestational diabetes mellitus (GDM) during a previous pregnancy. If this should be allowed, please email NationalDPPEval@cdc.gov. Otherwise, please check your GDM or SEX entries.",
+                    "category": "ERROR",
+                    "relatedFields": [16]
+                }
+            ]
         },
         {
             "fieldNumber": 8,
@@ -117,7 +133,15 @@
             "required": true,
             "possibleAnswers": "AIAN_LOOKUP",
             "relatedInfo":  "If race is not reported by the participant, all of the 5 race variables will be coded as '2'.",
-            "mustBeConsistent": true
+            "mustBeConsistent": true,
+            "fieldValidationRules": [
+                {
+                    "rule": "",
+                    "message": "RACE value '2' is reported for all of this participant's session records in this file. Please recheck the reported values.",
+                    "category": "WARNING",
+                    "relatedFields": [12, 13, 14, 15]
+                }
+            ]
         },
         {
             "fieldNumber": 12,
@@ -182,7 +206,14 @@
             "required": true,
             "rangeMin": 30,
             "rangeMax": 98,
-            "mustBeConsistent": true
+            "mustBeConsistent": true,
+            "fieldValidationRules": [
+                {
+                    "rule": "$this >= 48 AND $this <= 84",
+                    "category": "WARNING",
+                    "message": "Height value is between 30 inches and 45 inches or 84 inches and 98 inches. Please check and verify the height."
+                }
+            ]
         },
         {
             "fieldNumber": 18,
@@ -224,7 +255,24 @@
             "type": "String",
             "required": true,
             "possibleAnswers": "SESSIONTYPE_LOOKUP",
-            "mustBeConsistent": false
+            "mustBeConsistent": false,
+            "fieldValidationRules" : [
+                {
+                    "rule": "$this == OM => $$20 == 88",
+                    "message": "For Session type OM, Session ID must be 88",
+                    "category": "ERROR"
+                },
+                {
+                    "rule": "$this == CM => $$20 == 99",
+                    "message": "For Session type CM, Session ID must be 99",
+                    "category": "ERROR"
+                },
+                {
+                    "rule": "$this == C => ($$20 >= 1 AND $$20 <=26)",
+                    "message": "For Session type C, Session ID must be between 1 and 26",
+                    "category": "ERROR"
+                }
+            ]
         },
         {
             "fieldNumber": 22,

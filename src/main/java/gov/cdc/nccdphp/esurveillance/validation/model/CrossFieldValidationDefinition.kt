@@ -8,4 +8,5 @@ package gov.cdc.nccdphp.esurveillance.validation.model
  */
 open class CrossFieldValidationDefinition(val rule: String, val message: String, val category: String) {
     var code: String? = null
+    var relatedFields: Array<Int>? = null
 }

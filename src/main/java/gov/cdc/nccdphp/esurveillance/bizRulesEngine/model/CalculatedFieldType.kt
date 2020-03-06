@@ -7,6 +7,7 @@ package gov.cdc.nccdphp.esurveillance.bizRulesEngine.model
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 enum class CalculatedFieldType {
+    String,
     Character,
     Numeric,
     Date,

@@ -1,0 +1,241 @@
+{
+    "name": "Laboratory Response Network - C",
+    "code": "LRNC",
+    "version": "1.0",
+    "fields": [
+        {
+            "fieldNumber": 1,
+            "name": "Batch_ID",
+            "category": "Green",
+            "label": "Batch ID",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 2,
+            "name": "CREATE_DATE",
+            "category": "Green",
+            "label": "Create Date",
+            "type": "Date",
+            "format": "M/d/yyyy",
+            "required": true
+        },
+        {
+            "fieldNumber": 3,
+            "name": "Activity",
+            "category": "Green",
+            "label": "Activity",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 4,
+            "name": "Agent_Category",
+            "category": "Green",
+            "label": "Agent Category",
+            "type": "String"
+        },
+        {
+            "fieldNumber": 5,
+            "name": "Sample_Matrix",
+            "category": "Greebn",
+            "label": "Sample matrix",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 6,
+            "name": "Other_Matrix_Text",
+            "category": "Green",
+            "label": "Other Matrix",
+            "type": "String",
+            "required": false
+        },
+        {
+            "fieldNumber": 7,
+            "name": "Intrument_Type",
+            "category": "Green",
+            "label": "Instrument Type",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 8,
+            "name": "other_instrument_text",
+            "category": "Green",
+            "label": "Other Instrument",
+            "type": "String",
+            "required": false
+        },
+        {
+            "fieldNumber": 9,
+            "name": "instrument_id",
+            "category": "Green",
+            "label": "Instrument ID",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 10,
+            "name": "batch_comments",
+            "category": "Green",
+            "label": "Batch Comments",
+            "type": "String",
+            "required": false
+        },
+        {
+            "fieldNumber": 11,
+            "name": "event_name",
+            "category": "Green",
+            "label": "Event Name",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 12,
+            "name": "run_id",
+            "category": "orange",
+            "label": "Run ID",
+            "type": "Numeric",
+            "required": true
+        },
+        {
+            "fieldNumber": 13,
+            "name": "run_datetime",
+            "category": "orange",
+            "label": "Run Date\\Time",
+            "type": "Date",
+            "format": "M/d/yyyy HH:mm a",
+            "required": true
+        },
+        {
+            "fieldNumber": 14,
+            "name": "submitter_sample_id",
+            "category": "orange",
+            "label": "Submitter Sample ID",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 15,
+            "name": "requestor_specimen_id",
+            "category": "orange",
+            "label": "Requestor Specimen ID",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 16,
+            "name": "requestor_name",
+            "category": "orange",
+            "label": "Requestor Name",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 17,
+            "name": "specimen_collection_date",
+            "category": "organte",
+            "label": "Specimen Collection Date",
+            "type": "Date",
+            "format": "M/d/yyyy HH:MM a",
+            "required": true
+        },
+        {
+            "fieldNumber": 18,
+            "name": "Analyte",
+            "category": "orange",
+            "label": "Analyte",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 19,
+            "name": "Result",
+            "category": "orange",
+            "label": "Result",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 20,
+            "name": "r2_value",
+            "category": "orange",
+            "label": "R2 Value",
+            "type": "Numeric",
+            "required": true,
+            "rangeMin": 0,
+            "rangeMax": 1
+        },
+        {
+            "fieldNumber": 21,
+            "name": "tester",
+            "category": "orange",
+            "label": "Teste/Analyst",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 22,
+            "name": "comments",
+            "category": "orange",
+            "label": "Comments",
+            "type": "String",
+            "required": false
+        },
+        {
+            "fieldNumber": 23,
+            "name": "patient_id",
+            "category": "Patient Info",
+            "label": "Patient ID",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 24,
+            "name": "patient_id_asigner",
+            "category": "Patient Info",
+            "label": "Patient ID Assigner",
+            "type": "String",
+            "required": true
+        },
+        {
+
+            "fieldNumber": 25,
+            "name": "patient_birthdate",
+            "category": "Patient Info",
+            "label": "Patient Birth Date",
+            "type": "Date",
+            "format": "M/d/yyyy",
+            "required": true
+        },
+        {
+            "fieldNumber": 26,
+            "name": "patient_isex",
+            "category": "Patient Info",
+            "label": "Patient Sex",
+            "type": "String",
+            "required": true
+        },
+        {
+            "fieldNumber": 27,
+            "name": "patient_age",
+            "category": "Patient Info",
+            "label": "Patient Age",
+            "type": "Numeric",
+            "rangeMin": 1,
+            "rangeMax": 125,
+            "required": true
+        },
+        {
+            "fieldNumber": 28,
+            "name": "age_init",
+            "category": "Patient Info",
+            "label": "Age Unit",
+            "type": "String",
+            "required": true
+        }
+
+    ]
+}
+

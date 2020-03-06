@@ -70,20 +70,20 @@ class Validator(private val valueSetService: ValueSetServices,
             if (fieldDef.format != null && fieldDef.type != "Date")
                 validateFormat(row.rowNumber, field, fieldDef, report)
             //perform X-field Validation...
-            fieldDef.fieldValidationRules?.forEach { r ->
-                //r.rule.replace("\$this", "\$${fieldDef.path}")
+            fieldDef.fieldValidationRules?.forEachIndexed { i, r ->
                 val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row)
-
                 if (cfResult == null || !(cfResult as Boolean)) {
-                    val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), r.message, field.value)
+                    val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), r.message, "${field.fieldNumber}_10$i", field.value)
+                    error.relatedFields = r.relatedFields
                     report.addError(error)
                 }
+
             }
         }
     }
     private fun validateRequired(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
         if (fieldDef.required && field.value.isEmpty()) { //None of the values are provided...
-            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Field ${fieldDef.name} is required")
+            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_1", "Field ${fieldDef.name} is required")
             report.addError(error)
         }
     }
@@ -94,12 +94,14 @@ class Validator(private val valueSetService: ValueSetServices,
                 when (fieldDef.format?.trim()) {
                     "N/A", ""-> {
                     }
-
-
+                    else -> {
+                        val regEx = fieldDef.format!!.toRegex()
+                        matches = regEx.matches(field.value)
+                    }
                 }
                 if (!matches) { //see if there's no coded answer:
                     if (answerNotValid( field, fieldDef)) {
-                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR,"Answer provided does not match required Format ${fieldDef.format}", field.value)
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR,"${field.fieldNumber}_6","Answer provided does not match required Format ${fieldDef.format}", field.value)
                         report.addError(error)
                     }
                 }
@@ -114,7 +116,7 @@ class Validator(private val valueSetService: ValueSetServices,
                     try {
                          Integer.parseInt(field.value)
                     } catch (e: NumberFormatException) {
-                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid number provided for field",  field.value)
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_2","Value must be numeric",  field.value)
                         report.addError(error)
                     }
                 "DATE" -> {
@@ -123,7 +125,7 @@ class Validator(private val valueSetService: ValueSetServices,
                         df.isLenient = false
                         df.parse(field.value)
                     } catch (e: ParseException) {
-                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid date provided for field",  field.value)
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_2","Value must be a valid date",  field.value)
                         report.addError(error)
                     } catch (e: IllegalArgumentException) {
                         throw InvalidConfigurationException("Invalid configuration - unable to use ${fieldDef.format} as a valid Date formatting. Error: ${e.message}")
@@ -132,7 +134,7 @@ class Validator(private val valueSetService: ValueSetServices,
                 "BOOLEAN" -> {
                     val match = booleanKeywords.filter { field.value.contains(it, ignoreCase = true) }
                     if (match.isEmpty()) {
-                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Invalid value provided for boolean field.",  field.value)
+                        val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_2","Value must be boolean.",  field.value)
                         report.addError(error)
                     }
                 }
@@ -146,17 +148,17 @@ class Validator(private val valueSetService: ValueSetServices,
             val value = field.value
             if (!value.isBlank()) {
                 when (fieldDef.type.toUpperCase()) {
-                    "NUMBER" ->
+                    "NUMERIC" ->
                         try {
                             val intvalue = Integer.parseInt(value)
                             if (fieldDef.rangeMin!! > 0 && intvalue < fieldDef.rangeMin!!) {
-                                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value needs to be greater or equal than ${fieldDef.rangeMin}.", value)
+                                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_3","Value needs to be greater or equal than ${fieldDef.rangeMin}.", value)
                                 report.addError(error)
                             }
-                            //Coudl be a coded value...
+                            //Could be a coded value...
                             if (fieldDef.rangeMax!! > 0 && intvalue > fieldDef.rangeMax!!) {
                                 if (fieldDef.possibleAnswers.isNullOrBlank() || answerNotValid(field, fieldDef)) {
-                                    val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Value needs to be less or equal than ${fieldDef.rangeMax}.", value)
+                                    val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Value needs to be less or equal than ${fieldDef.rangeMax}.", value)
                                     report.addError(error)
                                 }
 
@@ -166,16 +168,17 @@ class Validator(private val valueSetService: ValueSetServices,
                         }
                     "STRING" -> {
                         if (fieldDef.rangeMin!! > 0 && value.length < fieldDef.rangeMin!!) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Length of value must be equal or greater than %.0f".format(fieldDef.rangeMax), value)
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_3","Length of value must be equal or greater than %.0f".format(fieldDef.rangeMax), value)
                             report.addError(error)
                         }
                         if (fieldDef.rangeMax!! > 0 && value.length > fieldDef.rangeMax!!) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Length of value must be equal or less than %.0f".format(fieldDef.rangeMax), value)
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Length of value must be equal or less than %.0f".format(fieldDef.rangeMax), value)
                             report.addError(error)
                         }
                     }
-                    else -> {
-                    }
+                    //TODO ADD RANGE FOR DATE
+//                    else -> {
+//                    }
                 }
             }
         } else if (!(fieldDef.possibleAnswers.isNullOrBlank()) && (fieldDef.format.isNullOrBlank())) { //Has a Possible answer and is not a date!
@@ -196,7 +199,7 @@ class Validator(private val valueSetService: ValueSetServices,
     private fun validatePossibleAnswers(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
         if (!(field.value.isBlank())) {
             if (answerNotValid(field, fieldDef)) {
-                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "Answer provided is not part of a valid possible answer.", field.value)
+                val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_5","Answer provided is not in the set of valid possible answer.", field.value)
                 report.addError(error)
             }
         }

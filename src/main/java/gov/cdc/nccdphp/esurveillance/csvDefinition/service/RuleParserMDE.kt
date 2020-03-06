@@ -7,18 +7,25 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.model.CSVDefinition
 
 class RuleParserMDE(private val mdeDef: CSVDefinition) : RuleParser() {
     companion object {
-        const val FIELD = "\\$[0-9]{1,2}[a-zA-Z](\\[[0-9]\\])?"
+         val FIELD = "\\$([0-9]{1,2})".toRegex()
     }
 
     @Throws (InvalidRuleException::class)
     override fun getFieldType(element: String): CalculatedFieldType {
-        val field = FIELD.toRegex().find(element)
-        val fieldVal = field?.groupValues?.firstOrNull()
-        if (fieldVal != null) {
-            val result = mdeDef.fields[fieldVal.substring(1, fieldVal.length).toInt()]
-            return CalculatedFieldType.valueOf(result.type)
+        val field = FIELD.find(element)
+        if (field != null) {
+            val fieldVal = field.groups[1]?.value
+            if (fieldVal != null) {
+                val result = mdeDef.fields[fieldVal.toInt() - 1]
+                return CalculatedFieldType.valueOf(result.type)
+            }
         }
-        return CalculatedFieldType.Numeric //TODO:: Check if we need to return anything else here.
+        return try {
+            Integer.parseInt(element)
+            CalculatedFieldType.Numeric
+        } catch (e: NumberFormatException) {
+            CalculatedFieldType.String
+        }
     }
 
 }

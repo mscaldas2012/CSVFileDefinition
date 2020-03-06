@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class CalculatedFieldMDE(ruleParser: RuleParser): RuleEvaluator(ruleParser) {
-
     override fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType): Any? {
         var fieldValue: String? = operand
         when {
@@ -18,8 +17,12 @@ class CalculatedFieldMDE(ruleParser: RuleParser): RuleEvaluator(ruleParser) {
             "NULL" == operand.toUpperCase() -> return null
             operand.startsWith("$") -> {
                 //TODO::Use Hashmaps on Rows for faster finding of field
-                val field = row.fields.find { f -> f.fieldNumber == operand.substring(1, operand.length).toInt() }
-                fieldValue = field?.value
+                val field = RuleParserMDE.FIELD.find(operand)
+                if (field != null) {
+                    val fieldNbr = field.groups[1]?.value
+                    val field = row.fields.find { f -> f.fieldNumber == fieldNbr?.toInt() }
+                    fieldValue = field?.value
+                }
             }
             operand.contains("~") -> {
                 return operand //It's a Date calculation... will add/subtract number of days/months/years
@@ -30,12 +33,12 @@ class CalculatedFieldMDE(ruleParser: RuleParser): RuleEvaluator(ruleParser) {
                 CalculatedFieldType.Numeric -> fieldValue.toInt()
                 CalculatedFieldType.Date -> {
                     //TODO::Use date format from Definition!
-                    val formatter = DateTimeFormatter.ofPattern("MMddyyyy", Locale.ENGLISH)
+                    val formatter = DateTimeFormatter.ofPattern("M/d/yyyy", Locale.ENGLISH)
                     LocalDate.parse(fieldValue, formatter).let {
                         Date.from(it.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
                     }
                 }
-                CalculatedFieldType.Character -> fieldValue
+                CalculatedFieldType.Character, CalculatedFieldType.String -> fieldValue
                 CalculatedFieldType.Boolean -> fieldValue.toBoolean()
             }
         } else null
