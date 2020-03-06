@@ -10,11 +10,16 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class CalculatedFieldMDE(ruleParser: RuleParser): RuleEvaluator(ruleParser) {
-    override fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType): Any? {
+
+
+    override fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType, metadata: Map<String, String>? ): Any? {
         var fieldValue: String? = operand
         when {
             "\$TODAY" == operand -> return Date()
             "NULL" == operand.toUpperCase() -> return null
+            operand.startsWith("\$METADATA_") -> {
+                    return metadata?.get(operand.substring(10))
+            }
             operand.startsWith("$") -> {
                 //TODO::Use Hashmaps on Rows for faster finding of field
                 val field = RuleParserMDE.FIELD.find(operand)

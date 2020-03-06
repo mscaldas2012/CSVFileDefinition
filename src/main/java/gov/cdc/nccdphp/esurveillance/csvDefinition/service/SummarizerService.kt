@@ -24,7 +24,7 @@ class SummarizerService {
 
             val enumType = if (fieldDef.possibleAnswers == null)
                                 COLUMN_TYPE.valueOf(fieldDef.type.toUpperCase())
-                            else if ((fieldDef.rangeMin != null && fieldDef.rangeMin!! > 0.0) || (fieldDef.rangeMax != null && fieldDef.rangeMax!! > 0.0))
+                            else if ((fieldDef.rangeMin != null ) || (fieldDef.rangeMax != null))
                                 COLUMN_TYPE.valueOf(fieldDef.type.toUpperCase())
                            else COLUMN_TYPE.VALUESET
 
@@ -72,13 +72,16 @@ class SummarizerService {
     }
 
     private fun createNumberStats(columnValues: MutableList<String>, fieldDef: FieldDefinition): NumberStats {
+        val rangeMin = if (fieldDef.rangeMin != null) Integer.parseInt(fieldDef.rangeMin) else 0
+        val rangeMax = if (fieldDef.rangeMax != null) Integer.parseInt(fieldDef.rangeMax) else 0
+
         val intArray = columnValues.mapNotNull {
             try {
                 it.toInt()
             } catch (e: NumberFormatException) {
                 0
             }
-        }.filter { it >= fieldDef.rangeMin!! && it <= fieldDef.rangeMax!! }
+        }.filter { it >= rangeMin && it <= rangeMax}
 
         val stats = NumberStats(intArray.min().toString(),
                 intArray.max().toString(),

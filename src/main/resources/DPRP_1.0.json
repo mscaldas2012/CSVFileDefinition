@@ -12,7 +12,15 @@
             "required": true,
             "rangeMax": 25,
             "relatedInfo": "Provided by CDC.",
-            "mustBeConsistent": false
+            "mustBeConsistent": false,
+            "fieldValidationRules":[
+                {
+                    "rule": "$this == $METADATA_ORGANIZATION_CODE",
+                    "message": "ORGCODE does not match. ",
+                    "category": "ERROR"
+                }
+            ]
+
         },
         {
             "fieldNumber": 2,
@@ -68,7 +76,7 @@
             "mustBeConsistent": false,
             "fieldValidationRules": [
                 {
-                    "rule": "$$6 != 2 OR $$7 != 2 OR $$8 != 2",
+                    "rule": "$6 != 2 OR $7 != 2 OR $8 != 2",
                     "category": "WARNING",
                     "message": "At least one of the prediabetes determinations should be positive for the participant. Please recheck the reported values."
                 }
@@ -85,7 +93,7 @@
             "mustBeConsistent": false,
             "fieldValidationRules": [
                 {
-                    "rule": "$this == 1 => $$16 != 1",
+                    "rule": "$this == 1 => $16 != 1",
                     "message": "You have entered that a male participant had a clinical diagnosis of gestational diabetes mellitus (GDM) during a previous pregnancy. If this should be allowed, please email NationalDPPEval@cdc.gov. Otherwise, please check your GDM or SEX entries.",
                     "category": "ERROR",
                     "relatedFields": [16]
@@ -136,7 +144,7 @@
             "mustBeConsistent": true,
             "fieldValidationRules": [
                 {
-                    "rule": "$$11 != 2 OR $$12 != 2 OR $$13 != 2 OR $$14 != 2 OR $$15 != 2",
+                    "rule": "$11 != 2 OR $12 != 2 OR $13 != 2 OR $14 != 2 OR $15 != 2",
                     "message": "RACE value '2' is reported for all of this participant's session records in this file. Please recheck the reported values.",
                     "category": "WARNING",
                     "relatedFields": [12, 13, 14, 15]
@@ -258,18 +266,18 @@
             "mustBeConsistent": false,
             "fieldValidationRules" : [
                 {
-                    "rule": "$this == OM => $$20 == 88",
+                    "rule": "$this == OM => $20 == 88",
                     "message": "For Session type OM, Session ID must be 88",
                     "category": "ERROR"
                 },
                 {
-                    "rule": "$this == CM => $$20 == 99",
+                    "rule": "$this == CM => $20 == 99",
                     "message": "For Session type CM, Session ID must be 99",
                     "category": "ERROR"
                 },
                 {
-                    "rule": "$this == C => ($$20 >= 1 AND $$20 <=26)",
-                    "message": "For Session type C, Session ID must be between 1 and 26",
+                    "rule": "$this == C => ($20 >= 1 AND $20 <=26)",
+                    "message": "For Session type C, Session ID must be between 1 and 26, not %%value%%",
                     "category": "ERROR"
                 }
             ]
@@ -281,9 +289,19 @@
             "label": "Date of Session",
             "type": "Date",
             "required": true,
+            "rangeMax": "$TODAY",
+            "rangeMin": "01/01/2018",
             "format": "M/d/yyyy",
             "relatedInfo" :"Each data record represents attendance by one participant at one session; must include actual date of the session.",
-            "mustBeConsistent": false
+            "mustBeConsistent": false,
+            "fieldValidationRules": [
+                {
+                    "rule": "$this > $$($METADATA_FIRST_SESSION + 7~DAYS)",
+                    "message": "Date of Session must be after First Session + 7 days or %%$$($METADATA_FIRST_SESSION + 7~DAYS)%%.",
+                    "category": "ERROR"
+                }
+            ]
+
         },
         {
             "fieldNumber": 23,
@@ -310,6 +328,21 @@
             "possibleAnswers": "PA_LOOKUP",
             "relatedInfo": " At some or all program sessions, participants are asked to report the number of minutes of brisk physical activity they completed in the preceding week.  If the number of minutes is greater than or equal to 997, 997 should be used.",
             "mustBeConsistent": false
+        },
+        {
+            "fieldNumber": 25,
+            "name": "GRANTEE_ID",
+            "category": "File",
+            "label": "Grantee",
+            "type": "Numeric",
+            "required": false,
+            "fieldValidationRules": [
+                {
+                    "rule" : "$this == $METADATA_GRANTEE_ID",
+                    "message": "Grantee ID does not match Records.",
+                    "category": "ERROR"
+                }
+            ]
         }
     ]
 }

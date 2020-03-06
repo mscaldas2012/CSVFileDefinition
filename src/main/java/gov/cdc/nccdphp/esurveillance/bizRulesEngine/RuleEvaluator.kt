@@ -3,6 +3,7 @@ package gov.cdc.nccdphp.esurveillance.bizRulesEngine
 import gov.cdc.nccdphp.esurveillance.bizRulesEngine.model.*
 
 import org.springframework.stereotype.Component
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -23,37 +24,37 @@ import java.util.*
  */
 @Component
 abstract class RuleEvaluator(private val ruleParser: RuleParser) {
-    fun calculateField(equation: String, row: DataRow): Any? {
+    fun calculateField(equation: String, row: DataRow, metadata: Map<String, String>? = null): Any? {
         val ruleSetRegEx = "\\|\\|".toRegex()
         val ruleSet = ruleSetRegEx.split(equation)
         var result: Any?
         ruleSet.forEach { r ->
-            result = executeRule(r, row)
+            result = executeRule(r, row, metadata)
             if (result != null)
                 return result
         }
         return null
     }
 
-    private fun executeRule(testRule: String, row: DataRow): Any? {
+    private fun executeRule(testRule: String, row: DataRow, metadata: Map<String, String>?): Any? {
         val preconditionRegEx = "=>".toRegex()
         val equation = preconditionRegEx.split(testRule)
 
         return if (equation.size == 1) { //No pre-conditions available
             val tree = ruleParser.buildFullTree(equation[0])
-            eval(tree, row)
+            eval(tree, row, metadata)
         } else {
             val treeL = ruleParser.buildFullTree(equation[0])
-            if (eval(treeL, row) as Boolean) { //Pre-condition must always evaluate to a Boolean!
+            if (eval(treeL, row, metadata) as Boolean) { //Pre-condition must always evaluate to a Boolean!
                 val treeR = ruleParser.buildFullTree(equation[1])
-                eval(treeR, row)
+                eval(treeR, row, metadata)
             } else {
                 true
             }
         }
     }
 
-    private fun eval(node: Node?, row: DataRow): Any? {
+    private fun eval(node: Node?, row: DataRow, metadata:Map<String, String>?): Any? {
         when (node) {
             is Expression -> {
                 return when (node.operation) {
@@ -71,74 +72,85 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                      *  - AFTER, BEF can be used for Dates Only
                      *  - IN can be used for any list.
                      */
-                    "AND" -> (eval(node.left, row) as Boolean).and(eval(node.right, row) as Boolean)
-                    "OR" -> (eval(node.left, row) as Boolean).or(eval(node.right, row) as Boolean)
-                    "NOT" -> (eval(node.right, row) as Boolean).not()
-                    //Calculated FIeld Expression
-                    "$$" -> eval(node.right, row)
+                    "AND" -> (eval(node.left, row, metadata) as Boolean).and(eval(node.right, row, metadata) as Boolean)
+                    "OR" -> (eval(node.left, row, metadata) as Boolean).or(eval(node.right, row, metadata) as Boolean)
+                    "NOT" -> (eval(node.right, row, metadata) as Boolean).not()
+                    //Calculated Field Expression
+                    "$$" -> eval(node.right, row, metadata)
                     //INT/Date  OPERATORS:
                     /**
                      * With evalInt, you can add, subtract, multiply or divide two numbers.
                      */
                     "+" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval.plus(rightEval as Int)
                             is Date -> getDate(rightEval, leftEval, node.operation)
-
+                            is String -> { //It's really a date from METADATA!
+                                val formatter = SimpleDateFormat("M/d/yyyy")
+                                getDate(rightEval, formatter.parse(leftEval), node.operation)
+                            }
                             else -> false
                         }
                     }
                     "-" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval.minus(rightEval as Int)
                             is Date -> getDate(rightEval, leftEval, node.operation)
-
+                            is String -> { //It's really a date from METADATA!
+                                val formatter = SimpleDateFormat("M/d/yyyy")
+                                getDate(rightEval, formatter.parse(leftEval), node.operation)
+                            }
                             else -> false
                         }
                     }
                     //INT Operators...
-                    "*" -> (eval(node.left, row) as Int).times(eval(node.right, row) as Int)
-                    "/" -> (eval(node.left, row) as Int).div(eval(node.right, row) as Int)
+                    "*" -> (eval(node.left, row, metadata) as Int).times(eval(node.right, row, metadata) as Int)
+                    "/" -> (eval(node.left, row, metadata) as Int).div(eval(node.right, row, metadata) as Int)
                     //BOOLEAN OPERATORS:
                     "==" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         if (rightEval == null)
                             leftEval == null
                         else
                             when (leftEval) {
-                                is Int -> leftEval == (rightEval as Int)
+                                is Int -> leftEval == Integer.parseInt(rightEval.toString())
                                 else -> leftEval == rightEval
                             }
                     }
                     "!=" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         if (rightEval == null)
                             leftEval != null
                         else
                             when (leftEval) {
-                                is Int -> leftEval != (rightEval as Int)
+                                is Int -> leftEval != Integer.parseInt(rightEval.toString())
                                 is String -> leftEval != rightEval.toString()
                                 else -> leftEval != rightEval
                             }
                     }
                     ">", "AFTER" ->  {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
+                        val formatter = SimpleDateFormat("M/d/yyyy")
                         when (leftEval) {
                             is Int -> leftEval > (rightEval as Int)
-                            is Date -> leftEval > (rightEval as Date)
+                            is Date -> leftEval >
+                                    when (rightEval) {
+                                        is Date -> (rightEval)
+                                        else -> formatter.parse(rightEval.toString())
+                                    }
                             else -> false
                         }
                     }
                     ">=" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval >= (rightEval as Int)
                             is Date -> leftEval >= (rightEval as Date)
@@ -146,8 +158,8 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                         }
                     }
                     "<", "BEF" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval < (rightEval as Int)
                             is Date -> leftEval < (rightEval as Date)
@@ -155,8 +167,8 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                         }
                     }
                     "<=" -> {
-                        val leftEval = eval(node.left, row)
-                        val rightEval = eval(node.right, row)
+                        val leftEval = eval(node.left, row, metadata)
+                        val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval <= (rightEval as Int)
                             is Date -> leftEval <= (rightEval as Date)
@@ -164,7 +176,7 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                         }
                     }
                     "IN" -> {
-                        val op1 = eval(node.left, row)
+                        val op1 = eval(node.left, row, metadata)
                         val op2 = (node.right as Leaf).element //should be an array of options...
                         val values = op2.replace("{", "").replace("}", "").split(",")
                         val foundE = values.find { it.trim() == op1 }
@@ -174,7 +186,7 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                 }
             }
             is Leaf -> {
-                return getValue(node.element, row, node.type)
+                return getValue(node.element, row, node.type, metadata)
             }
             else -> throw Exception("Invalid Node type!")
         }
@@ -200,6 +212,6 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
 
 
 
-    abstract fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType): Any?
+    abstract fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType, metadata: Map<String, String>? = null): Any?
 
 }

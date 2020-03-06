@@ -9,6 +9,7 @@ import gov.cdc.nccdphp.esurveillance.validation.model.FileDefinition
 import org.springframework.stereotype.Component
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -48,21 +49,21 @@ class Validator(private val valueSetService: ValueSetServices,
     }
 
     @Throws(InvalidConfigurationException::class)
-    fun validate(file: CSVFile): ValidationReport {
+    fun validate(file: CSVFile, metadata: Map<String, String>? = null): ValidationReport {
         if (this.config == null) {
             throw Exception("Validator not properly configured!")
         }
         val report = ValidationReport()
-        file.rows.forEach {  validateRow(it, definition!!.fields, report) }
+        file.rows.forEach {  validateRow(it, definition!!.fields, metadata, report) }
         return report
     }
 
-    private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, report: ValidationReport) {
+    private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, metadata: Map<String, String>?, report: ValidationReport) {
         fieldCollection.forEach {
-            validateField(row, row.fields.first { a -> a.fieldNumber == it.fieldNumber }, it, report)}
+            validateField(row, row.fields.first { a -> a.fieldNumber == it.fieldNumber }, it, metadata, report)}
     }
 
-    private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
+    private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, metadata: Map<String, String>?, report: ValidationReport) {
         validateRequired(row.rowNumber, field, fieldDef, report)
         if (field.value.isNotEmpty()) {
             validateType(row.rowNumber, field, fieldDef, report)
@@ -71,7 +72,7 @@ class Validator(private val valueSetService: ValueSetServices,
                 validateFormat(row.rowNumber, field, fieldDef, report)
             //perform X-field Validation...
             fieldDef.fieldValidationRules?.forEachIndexed { i, r ->
-                val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row)
+                val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row, metadata)
                 if (cfResult == null || !(cfResult as Boolean)) {
                     val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), r.message, "${field.fieldNumber}_10$i", field.value)
                     error.relatedFields = r.relatedFields
@@ -144,19 +145,21 @@ class Validator(private val valueSetService: ValueSetServices,
 
     private fun validateValue(rowNumber: Int, field: DataField, fieldDef: FieldDefinition, report: ValidationReport) {
         //Check if Range is defined - if it is and no issues, we're good, but if it fails need to validate if is a valid coded value
-        if (fieldDef.rangeMin!! > 0 || fieldDef.rangeMax!! > 0) { //Range is defined...
+        if (fieldDef.rangeMin!= null || fieldDef.rangeMax != null) { //Range is defined...
             val value = field.value
             if (!value.isBlank()) {
                 when (fieldDef.type.toUpperCase()) {
                     "NUMERIC" ->
                         try {
                             val intvalue = Integer.parseInt(value)
-                            if (fieldDef.rangeMin!! > 0 && intvalue < fieldDef.rangeMin!!) {
+                            val rangeMin = if (fieldDef.rangeMin != null) Integer.parseInt(fieldDef.rangeMin) else 0
+                            if (rangeMin > 0 && intvalue < rangeMin) {
                                 val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_3","Value needs to be greater or equal than ${fieldDef.rangeMin}.", value)
                                 report.addError(error)
                             }
                             //Could be a coded value...
-                            if (fieldDef.rangeMax!! > 0 && intvalue > fieldDef.rangeMax!!) {
+                            val rangeMax = if (fieldDef.rangeMax != null) Integer.parseInt(fieldDef.rangeMax) else 0
+                            if (rangeMax > 0 && intvalue > rangeMax) {
                                 if (fieldDef.possibleAnswers.isNullOrBlank() || answerNotValid(field, fieldDef)) {
                                     val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Value needs to be less or equal than ${fieldDef.rangeMax}.", value)
                                     report.addError(error)
@@ -167,14 +170,44 @@ class Validator(private val valueSetService: ValueSetServices,
                             //This error is handled on validateType...
                         }
                     "STRING" -> {
-                        if (fieldDef.rangeMin!! > 0 && value.length < fieldDef.rangeMin!!) {
+                        val rangeMin = if (fieldDef.rangeMin != null) Integer.parseInt(fieldDef.rangeMin) else 0
+                        if (rangeMin > 0 && value.length < rangeMin) {
                             val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_3","Length of value must be equal or greater than %.0f".format(fieldDef.rangeMax), value)
                             report.addError(error)
                         }
-                        if (fieldDef.rangeMax!! > 0 && value.length > fieldDef.rangeMax!!) {
+                        val rangeMax = if (fieldDef.rangeMax != null) Integer.parseInt(fieldDef.rangeMax) else 0
+                        if (rangeMax > 0 && value.length > rangeMax) {
                             val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Length of value must be equal or less than %.0f".format(fieldDef.rangeMax), value)
                             report.addError(error)
                         }
+                    }
+                    "DATE" -> {
+                        val formatter = SimpleDateFormat(fieldDef.format)
+                        val rangeMin = when (fieldDef.rangeMin ) {
+                            null -> null
+                            "\$TODAY" -> Date()
+                            else -> {
+                                formatter.parse(fieldDef.rangeMin)
+                            }
+                        }
+                        val rangeMax = when (fieldDef.rangeMax ) {
+                            null -> null
+                            "\$TODAY" -> Date()
+                            else -> {
+                                formatter.parse(fieldDef.rangeMax)
+                            }
+                        }
+                        val fieldValueDate = formatter.parse(field.value)
+                        if (fieldValueDate < rangeMin) {
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Dates for this field must be after ${formatter.format(rangeMin)}", value)
+                            report.addError(error)
+
+                        }
+                        if (fieldValueDate > rangeMax) {
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Dates for this field must be before ${formatter.format(rangeMax)}", value)
+                            report.addError(error)
+                        }
+
                     }
                     //TODO ADD RANGE FOR DATE
 //                    else -> {

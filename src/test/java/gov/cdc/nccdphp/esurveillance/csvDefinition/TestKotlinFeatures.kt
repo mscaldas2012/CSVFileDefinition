@@ -1,5 +1,6 @@
 package gov.cdc.nccdphp.esurveillance.csvDefinition
 
+import junit.framework.Assert.assertFalse
 import org.junit.Test
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -26,6 +27,13 @@ class TestKotlinFeatures {
         assert(d1 <= d4)
     }
 
+    @Test
+    fun compareObjects() {
+        val str34:Any = "34"
+        val int34:Any  = 35
+        assertFalse(str34.toString() == int34.toString())
+        assert(str34.toString() < int34.toString())
+    }
     @Test
     fun testINRegEx() {
         val listRegEx = "\\{( ?([0-9]+),? *)+\\}".toRegex()

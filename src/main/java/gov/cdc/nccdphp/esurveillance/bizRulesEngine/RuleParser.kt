@@ -21,7 +21,7 @@ abstract class RuleParser {
     fun buildFullTree(equation: String): Node {
         if (!trees.containsKey(equation)) {
             val exprSplit = run {
-                val expressions = "[\\+\\-\\*\\/\\^\\(\\)]|==|!=|>=|<=|> |< |IN|AFTER|BEF|AND|OR|NOT|$$"
+                val expressions = "[\\+\\-\\*\\/\\^\\(\\)]|==|!=|>=|<=|> |< |IN|AFTER|BEF| AND| OR|NOT|$$"
                 val expressionRegEx = "(?<=$expressions)|(?=$expressions)".toRegex()
                 expressionRegEx.split(equation).filter { !it.isBlank() }.map { it.trim() }
 

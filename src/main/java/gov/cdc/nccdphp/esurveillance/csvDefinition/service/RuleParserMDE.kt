@@ -8,6 +8,7 @@ import gov.cdc.nccdphp.esurveillance.csvDefinition.model.CSVDefinition
 class RuleParserMDE(private val mdeDef: CSVDefinition) : RuleParser() {
     companion object {
          val FIELD = "\\$([0-9]{1,2})".toRegex()
+       // val METADATA = "\\$[METADATA_](a-zA-A-_])".toRegex()
     }
 
     @Throws (InvalidRuleException::class)

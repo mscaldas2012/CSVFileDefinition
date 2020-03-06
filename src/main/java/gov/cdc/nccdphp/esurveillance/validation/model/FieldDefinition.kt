@@ -8,8 +8,8 @@ open class FieldDefinition(val fieldNumber: Int, val type: String, val required:
     var name: String? = null
     //Validation
     var format: String? = null
-    var rangeMin: Double? = 0.0
-    var rangeMax: Double? = 0.0
+    var rangeMin: String? = null
+    var rangeMax: String? = null
     var possibleAnswers: String? = null
     var fieldValidationRules: List<CrossFieldValidationDefinition>? = null
 
