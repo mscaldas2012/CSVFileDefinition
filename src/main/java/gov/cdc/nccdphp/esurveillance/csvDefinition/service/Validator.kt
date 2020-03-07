@@ -49,7 +49,7 @@ class Validator(private val valueSetService: ValueSetServices,
     }
 
     @Throws(InvalidConfigurationException::class)
-    fun validate(file: CSVFile, metadata: Map<String, String>? = null): ValidationReport {
+    fun validate(file: CSVFile, metadata: Map<String, Any>? = null): ValidationReport {
         if (this.config == null) {
             throw Exception("Validator not properly configured!")
         }
@@ -58,12 +58,12 @@ class Validator(private val valueSetService: ValueSetServices,
         return report
     }
 
-    private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, metadata: Map<String, String>?, report: ValidationReport) {
+    private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, metadata: Map<String, Any>?, report: ValidationReport) {
         fieldCollection.forEach {
             validateField(row, row.fields.first { a -> a.fieldNumber == it.fieldNumber }, it, metadata, report)}
     }
 
-    private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, metadata: Map<String, String>?, report: ValidationReport) {
+    private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, metadata: Map<String, Any>?, report: ValidationReport) {
         validateRequired(row.rowNumber, field, fieldDef, report)
         if (field.value.isNotEmpty()) {
             validateType(row.rowNumber, field, fieldDef, report)
@@ -74,7 +74,7 @@ class Validator(private val valueSetService: ValueSetServices,
             fieldDef.fieldValidationRules?.forEachIndexed { i, r ->
                 val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row, metadata)
                 if (cfResult == null || !(cfResult as Boolean)) {
-                    val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), r.message, "${field.fieldNumber}_10$i", field.value)
+                    val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), replaceRules(r.message, row, metadata) , "${field.fieldNumber}_10$i", field.value)
                     error.relatedFields = r.relatedFields
                     report.addError(error)
                 }
@@ -172,12 +172,12 @@ class Validator(private val valueSetService: ValueSetServices,
                     "STRING" -> {
                         val rangeMin = if (fieldDef.rangeMin != null) Integer.parseInt(fieldDef.rangeMin) else 0
                         if (rangeMin > 0 && value.length < rangeMin) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_3","Length of value must be equal or greater than %.0f".format(fieldDef.rangeMax), value)
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_3","Length of value must be equal or greater than ${fieldDef.rangeMin}.", value)
                             report.addError(error)
                         }
                         val rangeMax = if (fieldDef.rangeMax != null) Integer.parseInt(fieldDef.rangeMax) else 0
                         if (rangeMax > 0 && value.length > rangeMax) {
-                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Length of value must be equal or less than %.0f".format(fieldDef.rangeMax), value)
+                            val error = ValidationError(Location(rowNumber, field.fieldNumber), ValidationCategory.ERROR, "${field.fieldNumber}_4","Length of value must be equal or less than ${fieldDef.rangeMax}.", value)
                             report.addError(error)
                         }
                     }
@@ -236,5 +236,33 @@ class Validator(private val valueSetService: ValueSetServices,
                 report.addError(error)
             }
         }
+    }
+
+    //This method replaces dynamic rules wrapped in %%rule%% with their actual evaluated values.
+    private fun replaceRules(message: String, row:DataRow, metadata: Map<String, Any>?): String {
+        val rules = mutableListOf<String>()
+        var newMessage = message
+        var startIndex = message.indexOf("%%")
+        if (startIndex > 0) {
+            var secondIndex = message.indexOf("%%", startIndex + 2)
+            if (secondIndex > 0) {
+                newMessage = message.substring(0, startIndex)
+                do {
+                    val rule = message.substring(startIndex + 2, secondIndex)
+                    val calculatedValue = calculatedField.calculateField(rule, row, metadata)
+                    newMessage += when (calculatedValue) {
+                        is Date -> SimpleDateFormat("M/d/yyyy").format(calculatedValue)
+                        else -> calculatedValue.toString()
+                    }
+                    val tempIndex = secondIndex +2
+                    startIndex = message.indexOf("%%", secondIndex + 2)
+                    secondIndex = message.indexOf("%%", startIndex + 2)
+                    if (startIndex > 0)
+                        newMessage += message.substring(tempIndex, startIndex)
+                    else newMessage += message.substring(tempIndex)
+                } while (startIndex > 0)
+            }
+        }
+        return newMessage
     }
 }

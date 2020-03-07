@@ -12,7 +12,7 @@ import java.util.*
 class CalculatedFieldMDE(ruleParser: RuleParser): RuleEvaluator(ruleParser) {
 
 
-    override fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType, metadata: Map<String, String>? ): Any? {
+    override fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType, metadata: Map<String, Any>? ): Any? {
         var fieldValue: String? = operand
         when {
             "\$TODAY" == operand -> return Date()

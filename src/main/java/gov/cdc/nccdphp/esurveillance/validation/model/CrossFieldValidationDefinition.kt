@@ -7,6 +7,5 @@ package gov.cdc.nccdphp.esurveillance.validation.model
  * @Author Marcelo Caldas mcq1@cdc.gov
  */
 open class CrossFieldValidationDefinition(val rule: String, val message: String, val category: String) {
-    var code: String? = null
     var relatedFields: Array<Int>? = null
 }

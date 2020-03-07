@@ -1,20 +1,17 @@
 package gov.cdc.nccdphp.esurveillance.csvDefinition.controller
 
-import gov.cdc.nccdphp.esurveillance.csvDefinition.model.CSVFile
 import gov.cdc.nccdphp.esurveillance.csvDefinition.model.ValidationReport
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.CSVDefinitionService
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.TransformerService
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.Validator
 import gov.cdc.nccdphp.esurveillance.csvDefinition.service.ValueSetServices
 import gov.cdc.nccdphp.esurveillance.rest.exceptions.InvalidDataException
-import gov.cdc.nccdphp.esurveillance.rest.model.ERROR_CODES
-import gov.cdc.nccdphp.esurveillance.rest.model.ErrorReceipt
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  *
@@ -46,7 +43,13 @@ class ValidatorController {
 
         val file = transformer.parseContentAsCSVFile(content, includesHeader?:true)
         val validator = getValidator(config, version?:"1.0")
-        return validator.validate(file)
+        val formatter = SimpleDateFormat("M/d/yyyy")
+        val metadata: MutableMap<String, Any> = mutableMapOf(
+            "ORGANIZATION_CODE" to "293142",
+            "GRANTEE_ID" to 34,
+            "FIRST_SESSION" to formatter.parse("9/12/2017"))
+
+        return validator.validate(file, metadata)
     }
 
     private fun getValidator(config: String, version: String): Validator {

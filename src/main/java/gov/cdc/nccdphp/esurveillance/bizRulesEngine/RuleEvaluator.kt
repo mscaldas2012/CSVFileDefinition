@@ -24,7 +24,7 @@ import java.util.*
  */
 @Component
 abstract class RuleEvaluator(private val ruleParser: RuleParser) {
-    fun calculateField(equation: String, row: DataRow, metadata: Map<String, String>? = null): Any? {
+    fun calculateField(equation: String, row: DataRow, metadata: Map<String, Any>? = null): Any? {
         val ruleSetRegEx = "\\|\\|".toRegex()
         val ruleSet = ruleSetRegEx.split(equation)
         var result: Any?
@@ -36,7 +36,7 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
         return null
     }
 
-    private fun executeRule(testRule: String, row: DataRow, metadata: Map<String, String>?): Any? {
+    private fun executeRule(testRule: String, row: DataRow, metadata: Map<String, Any>?): Any? {
         val preconditionRegEx = "=>".toRegex()
         val equation = preconditionRegEx.split(testRule)
 
@@ -54,7 +54,8 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
         }
     }
 
-    private fun eval(node: Node?, row: DataRow, metadata:Map<String, String>?): Any? {
+    private fun eval(node: Node?, row: DataRow, metadata:Map<String, Any>?): Any? {
+        val formatter = SimpleDateFormat("M/d/yyyy")
         when (node) {
             is Expression -> {
                 return when (node.operation) {
@@ -137,7 +138,6 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                     ">", "AFTER" ->  {
                         val leftEval = eval(node.left, row, metadata)
                         val rightEval = eval(node.right, row, metadata)
-                        val formatter = SimpleDateFormat("M/d/yyyy")
                         when (leftEval) {
                             is Int -> leftEval > (rightEval as Int)
                             is Date -> leftEval >
@@ -153,7 +153,11 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                         val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval >= (rightEval as Int)
-                            is Date -> leftEval >= (rightEval as Date)
+                            is Date -> leftEval >=
+                                    when (rightEval) {
+                                        is Date -> (rightEval)
+                                        else -> formatter.parse(rightEval.toString())
+                                    }
                             else -> false
                         }
                     }
@@ -162,7 +166,10 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                         val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval < (rightEval as Int)
-                            is Date -> leftEval < (rightEval as Date)
+                            is Date -> leftEval < when (rightEval) {
+                                is Date -> (rightEval)
+                                else -> formatter.parse(rightEval.toString())
+                            }
                             else -> false
                         }
                     }
@@ -171,7 +178,10 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
                         val rightEval = eval(node.right, row, metadata)
                         when (leftEval) {
                             is Int -> leftEval <= (rightEval as Int)
-                            is Date -> leftEval <= (rightEval as Date)
+                            is Date -> leftEval <= when (rightEval) {
+                                is Date -> (rightEval)
+                                else -> formatter.parse(rightEval.toString())
+                            }
                             else -> false
                         }
                     }
@@ -212,6 +222,6 @@ abstract class RuleEvaluator(private val ruleParser: RuleParser) {
 
 
 
-    abstract fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType, metadata: Map<String, String>? = null): Any?
+    abstract fun getValue(operand: String, row: DataRow, fieldType: CalculatedFieldType, metadata: Map<String, Any>? = null): Any?
 
 }

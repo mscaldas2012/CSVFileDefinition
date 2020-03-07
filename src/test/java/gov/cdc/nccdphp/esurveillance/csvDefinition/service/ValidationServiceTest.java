@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,11 +43,13 @@ public class ValidationServiceTest {
     }
     @Test
     public void validate() throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("M/D/yyyy");
+
         CSVFile content = parse();
-        Map<String, String> metadata= new HashMap<>();
+        Map<String, Object> metadata= new HashMap<>();
         metadata.put("ORGANIZATION_CODE", "293142");
-        metadata.put("GRANTEE_ID", "34");
-        metadata.put("FIRST_SESSION", "9/15/2017");
+        metadata.put("GRANTEE_ID", 34);
+        metadata.put("FIRST_SESSION", formatter.parse("9/12/2017"));
         ValidationReport report = validationService.validate(content, metadata);
         System.out.println("report =\n " + report);
     }
