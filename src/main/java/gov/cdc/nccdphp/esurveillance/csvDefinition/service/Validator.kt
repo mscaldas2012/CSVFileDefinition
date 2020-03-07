@@ -60,25 +60,31 @@ class Validator(private val valueSetService: ValueSetServices,
 
     private fun validateRow(row: DataRow, fieldCollection: Array<FieldDefinition>, metadata: Map<String, Any>?, report: ValidationReport) {
         fieldCollection.forEach {
-            validateField(row, row.fields.first { a -> a.fieldNumber == it.fieldNumber }, it, metadata, report)}
+            validateField(row, row.fields.firstOrNull { a -> a.fieldNumber == it.fieldNumber }, it, metadata, report)}
     }
 
-    private fun validateField(row: DataRow, field: DataField, fieldDef: FieldDefinition, metadata: Map<String, Any>?, report: ValidationReport) {
-        validateRequired(row.rowNumber, field, fieldDef, report)
-        if (field.value.isNotEmpty()) {
-            validateType(row.rowNumber, field, fieldDef, report)
-            validateValue(row.rowNumber, field, fieldDef, report)
-            if (fieldDef.format != null && fieldDef.type != "Date")
-                validateFormat(row.rowNumber, field, fieldDef, report)
-            //perform X-field Validation...
-            fieldDef.fieldValidationRules?.forEachIndexed { i, r ->
-                val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row, metadata)
-                if (cfResult == null || !(cfResult as Boolean)) {
-                    val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), replaceRules(r.message, row, metadata) , "${field.fieldNumber}_10$i", field.value)
-                    error.relatedFields = r.relatedFields
-                    report.addError(error)
-                }
+    private fun validateField(row: DataRow, field: DataField?, fieldDef: FieldDefinition, metadata: Map<String, Any>?, report: ValidationReport) {
+        if (field != null) {
+            validateRequired(row.rowNumber, field, fieldDef, report)
+            if (field.value.isNotEmpty()) {
+                validateType(row.rowNumber, field, fieldDef, report)
+                validateValue(row.rowNumber, field, fieldDef, report)
+                if (fieldDef.format != null && fieldDef.type != "Date")
+                    validateFormat(row.rowNumber, field, fieldDef, report)
+                //perform X-field Validation...
+                fieldDef.fieldValidationRules?.forEachIndexed { i, r ->
+                    try {
+                        val cfResult = calculatedField.calculateField(r.rule.replace("\$this", "\$${fieldDef.fieldNumber}"), row, metadata)
+                        if (cfResult == null || !(cfResult as Boolean)) {
+                            val error = ValidationError(Location(row.rowNumber, field.fieldNumber), ValidationCategory.valueOf(r.category), replaceRules(r.message, row, metadata), "${field.fieldNumber}_10$i", field.value)
+                            error.relatedFields = r.relatedFields
+                            report.addError(error)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
 
+                }
             }
         }
     }
