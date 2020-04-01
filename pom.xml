@@ -321,9 +321,6 @@
 						<phase>none</phase>
 					</execution>
 				</executions>
-				<configuration>
-					<release>11</release>
-				</configuration>
 
 			</plugin>
 <!--			<plugin>-->
