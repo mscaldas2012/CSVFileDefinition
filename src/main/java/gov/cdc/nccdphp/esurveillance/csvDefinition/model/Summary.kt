@@ -43,10 +43,10 @@ data class NumberStats(override val min: String,
                        override val unique: Int,
                        override val empty: Int):ColumnStats(min, max, unique, empty) {
     var average: Double = 0.0
-    var sum: Int = 0
+    var sum: Double = 0.0
     var std: Double = 0.0
-    lateinit var mode: List<Int>
-    var range: Int = 0
+    lateinit var mode: List<Double>
+    var range: Double = 0.0
 
 }
 //@JsonSubTypes.Type(value=DateStats::class, name="Date")

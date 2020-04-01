@@ -72,14 +72,14 @@ class SummarizerService {
     }
 
     private fun createNumberStats(columnValues: MutableList<String>, fieldDef: FieldDefinition): NumberStats {
-        val rangeMin = if (fieldDef.rangeMin != null) Integer.parseInt(fieldDef.rangeMin) else 0
-        val rangeMax = if (fieldDef.rangeMax != null) Integer.parseInt(fieldDef.rangeMax) else 0
+        val rangeMin:Double = if (fieldDef.rangeMin != null) fieldDef.rangeMin!!.toDouble() else 0.0
+        val rangeMax:Double = if (fieldDef.rangeMax != null) fieldDef.rangeMax!!.toDouble() else 0.0
 
-        val intArray = columnValues.mapNotNull {
+        val intArray:List<Double> = columnValues.mapNotNull {
             try {
-                it.toInt()
+                it.toDouble()
             } catch (e: NumberFormatException) {
-                0
+                0.0
             }
         }.filter { it >= rangeMin && it <= rangeMax}
 

@@ -4,7 +4,7 @@ class StatisticsUtils {
 
     companion object {
 
-        fun stdDevOf(array: List<Int>): Double {
+        fun stdDevOf(array: List<Double>): Double {
             var standardDeviation = 0.0
             val mean = (array.sum() * 1.0)/ array.size
 
@@ -24,11 +24,11 @@ class StatisticsUtils {
              return emptyList()
         }
 
-        fun rangeOf(intArray: List<Int>): Int {
+        fun rangeOf(intArray: List<Double>): Double {
             if (intArray.size > 0) {
                 return intArray.max()!! - intArray.min()!!
             }
-            return 0
+            return 0.0
 
 
         }

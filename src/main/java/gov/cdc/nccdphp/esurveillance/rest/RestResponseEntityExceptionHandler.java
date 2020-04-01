@@ -48,7 +48,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         		HttpStatus.NOT_FOUND.value(), request.getRequestURL().toString(), 
         		ex.getClass().getName());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//.body(error);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
     
     @Override
@@ -60,7 +60,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				HttpStatus.NOT_FOUND.value(), request.getDescription(false), 
 				ex.getClass().getName());
 
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//.body(error);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}    
     
     @ExceptionHandler(value = { IllegalArgumentException.class})
@@ -71,7 +71,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         		HttpStatus.BAD_REQUEST.value(), request.getRequestURL().toString(), 
         		ex.getClass().getName());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();//.body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }    
 
     @Override
@@ -87,7 +87,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				HttpStatus.BAD_REQUEST.value(), request.getDescription(false), 
 				ex.getClass().getName());
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();//.body(error);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
     
     @ExceptionHandler(value = { DuplicateKeyException.class,
@@ -100,7 +100,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         		HttpStatus.CONFLICT.value(), request.getRequestURL().toString(), 
         		ex.getClass().getName());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).build(); //.body(error);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }    
     
     @Override
@@ -112,7 +112,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				HttpStatus.METHOD_NOT_ALLOWED.value(), request.getDescription(false), 
 				ex.getClass().getName());
 		
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();//.body(error);
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(error);
 	}
     
     @Override
@@ -125,7 +125,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				HttpStatus.NOT_ACCEPTABLE.value(), request.getDescription(false), 
 				ex.getClass().getName());
 		
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();//.body(error);
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -148,7 +148,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //		CDCLogEntry logEntry = new CDCLogEntry(environment, "CSVFileDef_01", req.getRequestURL().toString(), "handleUnauthorizedError", e.getMessage(), null);
 //		cdcLoggerService.sendError(logEntry);
 		ErrorReceipt error =  new ErrorReceipt(ERROR_CODES.UNAUTHORIZED, e.getMessage(), 401, req.getServletPath(),  e.getClass().getName());
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();//.body(error);
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
 
 	}
 }
